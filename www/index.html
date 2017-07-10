@@ -30,28 +30,8 @@
     </ul>
     </div>
   </div>
-	
+
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript">
-	var dd = $.Deferred();
-	var jqd = $.Deferred();
-	$.when(dd, jqd).done(doInit);
-
-	$(document).bind('mobileinit', function () {
-		jqd.resolve();
-	});
-	</script>
 	<script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
-	<script type="text/javascript" src="cordova-2.2.0.js"></script>
-	<script type="text/javascript">
-	document.addEventListener('deviceready', deviceReady, false);
-	function deviceReady() {
-		dd.resolve();
-	}
-
-	function doInit() {
-		alert('Ready');
-	}
-	</script>
 </body>
 </html>
