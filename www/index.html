@@ -10,16 +10,16 @@
 	<div data-role="page">
 		<div data-role="navbar">
 			<ul>
-				<li><a href="#" data-icon="bars">Tools</a></li>
-				<li><a href="#" data-icon="home">Languages</a></li>
-				<li><a href="#" data-icon="search">Database</a></li>
+				<li><a href="#" onclick="gotoDeviceProperties()" data-icon="bars">Device<br/>Properties</a></li>
+				<li><a href="#" onclick="gotoLocalStorage()" data-icon="home">Local<br/>Storage</a></li>
+				<li><a href="#" onclick="exitApp()" data-icon="exit">Exit<br/>Application</a></li>
 			</ul>
 		</div>
 		<div data-role="header">
-			<h1>Tech Words</h1>
+			<h1>Menu</h1>
 		</div>
-		<ul data-role="listview">
-			<li><a href="#">Apache</a></li>
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#" onclick="gotoGeoLocation()">Geolocation</a></li>
 			<li><a href="#">BASIC</a></li>
 			<li><a href="#">COBOL</a></li>
 			<li><a href="#">Java</a></li>
@@ -30,9 +30,39 @@
 
 	</div>
 
+	<script type="text/javascript">
+		document.addEventListener("deviceready", onDeviceReady, true);
 
-	<script type="text/javascript" src="cordova.js"></script>
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+		function onDeviceReady()
+		{     
+			document.addEventListener("backbutton", BackKeyDown, true);
+		}
+		function gotoDeviceProperties()
+		{
+			window.location = "deviceProperties.html";
+		}
+
+		function gotoLocalStorage()
+		{
+			window.location = "localStorage.html";
+		}
+
+		function gotoGeoLocation()
+		{
+			window.location = "location.html";
+		}
+
+		function BackKeyDown()
+		{
+            console.log("Back Pressed");
+        }
+        function exitApp()
+        {
+        	navigator.app.exitApp();
+        }
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
 </body>
 </html>

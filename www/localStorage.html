@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<title>Blank App</title>
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+</head>
+<body>
+	<div data-role="page">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#" onclick="goBack()" data-icon="back">Back</a></li>
+				<li><a href="#" data-icon="home">Local<br/>Storage</a></li>
+				<li><a href="#" data-icon="search">Database</a></li>
+			</ul>
+		</div>
+		<div data-role="header">
+			<h1>Local Storage</h1>
+		</div>
+		
+		<button type="button" onclick="addCountry()">Add Canada</button> <br/>
+		<button type="button" onclick="get1Data()">Get USA Data</button> <br/>
+		<button type="button" onclick="getAllData()">Get All Data</button> <br/>
+		<button type="button" onclick="removeAllData()">Remove All Countries</button> <br/>
+
+	</div>
+
+	<script type="text/javascript">
+		document.addEventListener('deviceready', onDeviceReady, false);
+
+		function onDeviceReady() {
+			document.addEventListener("backbutton", BackKeyDown, true);
+
+			localStorage.setItem("IN", "India");
+			localStorage.setItem("FR", "France");
+			localStorage.setItem("USA", "U.S.A");
+
+		}
+
+
+		function addCountry() {
+			localStorage.setItem("CA", "Canada");
+			alert("Canada added successfully");
+		}
+
+		function get1Data() {
+			var usa = localStorage.getItem("USA");
+			alert("Country Name is " + usa);
+		}
+
+		function getAllData() {
+			for(var i in localStorage){
+				alert(localStorage.getItem(i));
+			}
+		}
+
+		function removeAllData() {
+			window.localStorage.clear();
+			alert("All Countries removed successfully");
+		}
+
+		function goBack()
+		{
+			window.location = "index.html";
+		}
+
+		function BackKeyDown()
+		{
+			console.log("Back Pressed");
+		}
+	</script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+</body>
+</html>

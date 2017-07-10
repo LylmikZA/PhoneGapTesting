@@ -9,4 +9,6 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <plugin name="cordova-plugin-device" spec="^1.1.0" />
+    <plugin name="cordova-plugin-geolocation" spec="^1.0.0" />
 </widget>
