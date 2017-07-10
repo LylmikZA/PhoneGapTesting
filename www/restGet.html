@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<title>Page 1</title>
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+</head>
+<body>
+	<div data-role="page">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#" onclick="goBack()" data-icon="back">Back</a></li>
+				<li><a href="#" data-icon="home">Languages</a></li>
+				<li><a href="#" data-icon="search">Database</a></li>
+			</ul>
+		</div>
+		<div data-role="header">
+			<h1>Rest GET</h1>
+		</div>
+
+		<div id='restResponse'>Performing REST GET...</div>
+		
+	</div>
+
+	<script type="text/javascript">
+		document.addEventListener("deviceready", onDeviceReady, false);
+		document.addEventListener("backbutton", BackKeyDown, true);
+
+		function onDeviceReady() {
+			console.log("location: device ready")
+			doGet();			
+		}
+
+		function doGet() {
+			var request = new XMLHttpRequest();
+			request.open("GET", "http://search.twitter.com/search.json?q=phonegap", true);
+			//Call a function when the state changes.
+			request.onreadystatechange = function() {
+				console.log("received response");
+				var response = request.responseText;
+				var element = document.getElementById("restResponse");
+				element.innerHTML = response;
+			}
+			console.log("asking for tweets");
+			request.send();
+		}
+
+		function goBack()
+		{
+			window.location = "index.html";
+		}
+
+		function BackKeyDown()
+		{
+			console.log("Back Pressed");
+		}
+	</script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+</body>
+</html>

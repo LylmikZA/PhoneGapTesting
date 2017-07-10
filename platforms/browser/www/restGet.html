@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<title>Page 1</title>
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+</head>
+<body>
+	<div data-role="page">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#" onclick="goBack()" data-icon="back">Back</a></li>
+				<li><a href="#" data-icon="home">Languages</a></li>
+				<li><a href="#" data-icon="search">Database</a></li>
+			</ul>
+		</div>
+		<div data-role="header">
+			<h1>Rest GET</h1>
+		</div>
+
+		<div id='latestTweets'>Performing REST GET...</div>
+		
+	</div>
+
+	<script type="text/javascript">
+		document.addEventListener("deviceready", onDeviceReady, false);
+		document.addEventListener("backbutton", BackKeyDown, true);
+
+		function onDeviceReady() {
+			console.log("location: device ready")
+			loadTweets();			
+		}
+
+		function loadTweets() {
+			var request = new XMLHttpRequest();
+			request.open("GET", "http://search.twitter.com/search.json?q=phonegap", true);
+			//Call a function when the state changes.
+			request.onreadystatechange = function() {
+				if (request.readyState == 4) {
+					if (request.status == 200 || request.status == 0) {
+						var tweets = JSON.parse(request.responseText);
+						var data = "<table cellspacing='0'>";
+						var tableClass;
+						for (i = 0; i < tweets.results.length; i++) {
+							if (i % 2 == 0) {
+								tableClass = 'tweetOdd';
+							}
+							else {
+								tableClass = 'tweetEven';
+							}
+							data += "<tr style='border: 1px solid black'>";
+							data += "<td class='" + tableClass + "'>";
+							data += "<img src='" + tweets.results[i].profile_image_url + "'/>";
+							data += "</td>";
+							data += "<td class='" + tableClass + "'>";
+							data += "<b>" + tweets.results[i].from_user + "</b><br/>";
+							data += tweets.results[i].text + "<br/>";
+							data += tweets.results[i].created_at;
+							data += "</td>";
+							data += "</tr>";
+						}
+						data += "</table>";
+						var twitter = document.getElementById("latestTweets");
+						twitter.innerHTML = data;
+					}
+				}
+			}
+			console.log("asking for tweets");
+			request.send();
+		}
+
+		function goBack()
+		{
+			navigator.geolocation.clearWatch(watchId);
+			window.location = "index.html";
+		}
+
+		function BackKeyDown()
+		{
+			console.log("Back Pressed");
+		}
+	</script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+</body>
+</html>

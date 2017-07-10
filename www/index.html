@@ -20,7 +20,7 @@
 		</div>
 		<ul data-role="listview" data-inset="true">
 			<li><a href="#" onclick="gotoGeoLocation()">Geolocation</a></li>
-			<li><a href="#">BASIC</a></li>
+			<li><a href="#" onclick="gotoRestGet()">Rest GET</a></li>
 			<li><a href="#">COBOL</a></li>
 			<li><a href="#">Java</a></li>
 			<li><a href="#">PHP</a></li>
@@ -50,6 +50,11 @@
 		function gotoGeoLocation()
 		{
 			window.location = "location.html";
+		}
+
+		function gotoRestGet()
+		{
+			window.location = "restGet.html";
 		}
 
 		function BackKeyDown()
