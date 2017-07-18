@@ -24,11 +24,12 @@
 	</div>
 
 	<script type="text/javascript">
+		var TAG = "location: ";
 		document.addEventListener("deviceready", onDeviceReady, false);
 
 		var watchId;
 		function onDeviceReady() {
-			console.log("location: device ready")
+			console.log(TAG + "device ready")
 			document.addEventListener("backbutton", BackKeyDown, true);
 
 			var options = {maximumAge: 3000, timeout: 10000, enableHighAccuracy: true };
@@ -41,8 +42,8 @@
 
 		function onSuccess(position) {
 			var date = new Date(position.timestamp);
-			console.log('Coordinates: ' + position.coords);
-			console.log('Timestamp: ' + position.timestamp);
+			console.log(TAG + 'Coordinates: ' + position.coords);
+			console.log(TAG + 'Timestamp: ' + position.timestamp);
 			var element = document.getElementById('locationInfo');
 			element.innerHTML = 'Latitude: ' +  position.coords.latitude + 
 			'<br />' + 'Longitude: ' + position.coords.longitude + '<br />' +
@@ -50,8 +51,8 @@
 		}
 
 		function onError(error) {
-			console.log('message: ' + error.message);
-			console.log ('code: ' + error.code);
+			console.log(TAG + 'message: ' + error.message);
+			console.log (TAG + 'code: ' + error.code);
 			var element = document.getElementById('locationInfo');
 			element.innerHTML = 'Error: ' +  error.message + 
 			'<br />' + 'Code: ' + error.code + '<br />';
@@ -65,7 +66,7 @@
 
 		function BackKeyDown()
 		{
-			console.log("Back Pressed");
+			console.log(TAG + "Back Pressed");
 		}
 	</script>
 	<script type="text/javascript" src="cordova.js"></script>

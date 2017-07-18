@@ -24,11 +24,12 @@
 	</div>
 
 	<script type="text/javascript">
+		var TAG = "restGet: ";
 		document.addEventListener("deviceready", onDeviceReady, false);
 		document.addEventListener("backbutton", BackKeyDown, true);
 
 		function onDeviceReady() {
-			console.log("location: device ready")
+			console.log(TAG + "device ready");
 			doGet();			
 		}
 
@@ -37,12 +38,12 @@
 			request.open("GET", "http://search.twitter.com/search.json?q=phonegap", true);
 			//Call a function when the state changes.
 			request.onreadystatechange = function() {
-				console.log("received response");
+				console.log(TAG + "received response");
 				var response = request.responseText;
 				var element = document.getElementById("restResponse");
 				element.innerHTML = response;
 			}
-			console.log("asking for tweets");
+			console.log(TAG + "asking for tweets");
 			request.send();
 		}
 
@@ -53,7 +54,7 @@
 
 		function BackKeyDown()
 		{
-			console.log("Back Pressed");
+			console.log(TAG + "Back Pressed");
 		}
 	</script>
 	<script type="text/javascript" src="cordova.js"></script>
