@@ -26,10 +26,11 @@
 	<script type="text/javascript">
 		var TAG = "restGet: ";
 		document.addEventListener("deviceready", onDeviceReady, false);
-		document.addEventListener("backbutton", BackKeyDown, true);
+		
 
 		function onDeviceReady() {
 			console.log(TAG + "device ready");
+			document.addEventListener("backbutton", BackKeyDown, true);
 			doGet();			
 		}
 

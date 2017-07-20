@@ -2,13 +2,15 @@
 	display: block;
 	float: left;
 	text-align:left;
-	width: 97%;
+	width: 95%;
 }
 
 .checkbox-grid li {
-    display: block;
+    display: inline;
     float: left;
-    width: 33%;
+    width: 50%;
+    margin: -10px 0;
+    padding: 0 0 0 0;
 }
 
 .main-layout {

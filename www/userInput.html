@@ -21,7 +21,7 @@
 			<h1>User Input</h1>
 		</div>
 
-		<table width="100%">
+		<table width="95%">
 			<tr>
 				<td><label for="txt_in">Text Input:</label></td>
 				<td>
@@ -91,11 +91,11 @@
 	<script type="text/javascript">
 	var TAG = "restGet: ";
 	document.addEventListener("deviceready", onDeviceReady, false);
-	document.addEventListener("backbutton", BackKeyDown, true);
+	
 
 	function onDeviceReady() {
 		console.log(TAG + "device ready");
-		doGet();			
+		document.addEventListener("backbutton", BackKeyDown, true);
 	}
 
 	function buttonClicked() {
