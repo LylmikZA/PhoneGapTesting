@@ -1,0 +1,16 @@
+.select {
+	display: block;
+	float: left;
+	text-align:left;
+	width: 97%;
+}
+
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 33%;
+}
+
+.main-layout {
+	margin: 1%;
+}

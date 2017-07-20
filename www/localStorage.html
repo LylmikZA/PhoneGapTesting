@@ -19,6 +19,7 @@
 			<h1>Local Storage</h1>
 		</div>
 		
+		<button type="button" onclick="initCountries()">Init</button> <br/>
 		<button type="button" onclick="addCountry()">Add Canada</button> <br/>
 		<button type="button" onclick="get1Data()">Get USA Data</button> <br/>
 		<button type="button" onclick="getAllData()">Get All Data</button> <br/>
@@ -27,15 +28,17 @@
 	</div>
 
 	<script type="text/javascript">
+		var TAG = "localStorage: ";
 		document.addEventListener('deviceready', onDeviceReady, false);
 
 		function onDeviceReady() {
 			document.addEventListener("backbutton", BackKeyDown, true);
+		}
 
+		function initCountries() {
 			localStorage.setItem("IN", "India");
 			localStorage.setItem("FR", "France");
 			localStorage.setItem("USA", "U.S.A");
-
 		}
 
 
@@ -67,7 +70,7 @@
 
 		function BackKeyDown()
 		{
-			console.log("Back Pressed");
+			console.log(TAG + "Back Pressed");
 		}
 	</script>
 	<script type="text/javascript" src="cordova.js"></script>
