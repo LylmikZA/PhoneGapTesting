@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
 </head>
 <body>
-	<div data-role="page" class="main-layout">
+	<div data-role="page">
 		<div data-role="navbar">
 			<ul>
 				<li><a href="#" onclick="gotoDeviceProperties()" data-icon="bars">Device<br/>Properties</a></li>
@@ -22,7 +22,7 @@
 			<li><a href="#" onclick="gotoGeoLocation()">Geolocation</a></li>
 			<li><a href="#" onclick="gotoRestGet()">Rest GET</a></li>
 			<li><a href="#" onclick="gotoUserInput()">User Input</a></li>
-			<li><a href="#">Java</a></li>
+			<li><a href="#" onclick="gotoSqlite()">Database</a></li>
 			<li><a href="#">PHP</a></li>
 			<li><a href="#">Perl</a></li>
 			<li><a href="#">jQuery</a></li>
@@ -61,6 +61,10 @@
 	function gotoUserInput()
 	{
 		window.location = "userInput.html";
+	}
+	function gotoSqlite()
+	{
+		window.location = "sqlite.html";
 	}
 
 	function BackKeyDown()
