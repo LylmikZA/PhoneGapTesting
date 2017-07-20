@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self' restcountries.eu">
 	<title>Page 1</title>
 	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
 </head>
@@ -19,7 +20,7 @@
 			<h1>Rest GET</h1>
 		</div>
 
-		<div id='restResponse'>Press button to GET</div>
+		<div id='restResponse'>Press button to GET3</div>
 		
 	</div>
 
@@ -43,7 +44,7 @@
 			request.onreadystatechange = function() {
 				console.log(TAG + "received response");
 				var response = request.responseText;
-				
+
 				element.innerHTML = response;
 			}
 			request.onerror = function() {
@@ -57,18 +58,19 @@
 		// 	alert("GET button pressed");
 		// }
 
-		function goBack()
-		{
-			window.location = "index.html";
-		}
+		
+function goBack()
+{
+	window.location = "index.html";
+}
 
-		function BackKeyDown()
-		{
-			console.log(TAG + "Back Pressed");
-		}
-	</script>
-	<script type="text/javascript" src="cordova.js"></script>
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+function BackKeyDown()
+{
+	console.log(TAG + "Back Pressed");
+}
+</script>
+<script type="text/javascript" src="cordova.js"></script>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
 </body>
 </html>
