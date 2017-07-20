@@ -3,7 +3,6 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-	<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' restcountries.eu"> -->
 	<title>Page 1</title>
 	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
 </head>
@@ -20,7 +19,7 @@
 			<h1>Rest GET</h1>
 		</div>
 
-		<div id='restResponse'>Press button to GET3</div>
+		<div id='restResponse'>Press button to GET lynx test</div>
 		
 	</div>
 
@@ -32,6 +31,7 @@
 		function onDeviceReady() {
 			console.log(TAG + "device ready");
 			document.addEventListener("backbutton", BackKeyDown, true);
+			alert("device ready");
 			// doGet();			
 		}
 
@@ -39,7 +39,7 @@
 			var element = document.getElementById("restResponse");
 			element.innerHTML = "Performing GET...";
 			var request = new XMLHttpRequest();
-			request.open("GET", "https://restcountries.eu/rest/v2/alpha/za", true);
+			request.open("GET", "http://www.lynxsoftware.co.za/rest/123/test", true);
 			//Call a function when the state changes.
 			request.onreadystatechange = function() {
 				console.log(TAG + "received response");
