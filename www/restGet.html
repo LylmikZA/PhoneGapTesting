@@ -5,6 +5,7 @@
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 	<title>Page 1</title>
 	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-src 'self' https://restcountries.eu">
 </head>
 <body>
 	<div data-role="page">
@@ -42,7 +43,7 @@
 				console.log(TAG + "received response");
 				var response = request.responseText;
 				var element = document.getElementById("restResponse");
-				element.innerHTML = response;
+				element.innerHTML += "<br/>" + response;
 			}
 			console.log(TAG + "asking for tweets");
 			request.send();
