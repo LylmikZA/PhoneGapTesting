@@ -12,7 +12,7 @@
 		<div data-role="navbar">
 			<ul>
 				<li><a href="#" onclick="goBack()" data-icon="back">Back</a></li>
-				<li><a href="#" data-icon="home">Languages</a></li>
+				<li><a href="#" onclick="doGet()" data-icon="arrow-u">Get</a></li>
 				<li><a href="#" data-icon="search">Database</a></li>
 			</ul>
 		</div>
@@ -20,7 +20,7 @@
 			<h1>Rest GET</h1>
 		</div>
 
-		<div id='restResponse'>Performing REST GET...</div>
+		<div id='restResponse'>Press button to GET</div>
 		
 	</div>
 
@@ -32,18 +32,23 @@
 		function onDeviceReady() {
 			console.log(TAG + "device ready");
 			document.addEventListener("backbutton", BackKeyDown, true);
-			doGet();			
+			// doGet();			
 		}
 
 		function doGet() {
+			var element = document.getElementById("restResponse");
+			element.innerHTML = "Performing GET...";
 			var request = new XMLHttpRequest();
 			request.open("GET", "https://restcountries.eu/rest/v2/alpha/za", true);
 			//Call a function when the state changes.
 			request.onreadystatechange = function() {
 				console.log(TAG + "received response");
 				var response = request.responseText;
-				var element = document.getElementById("restResponse");
-				element.innerHTML += "<br/>" + response;
+				
+				element.innerHTML = response;
+			}
+			request.onerror = function() {
+				element.innerHTML = "Error occurred";
 			}
 			console.log(TAG + "asking for tweets");
 			request.send();
