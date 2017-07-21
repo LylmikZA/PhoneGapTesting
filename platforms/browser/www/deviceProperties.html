@@ -24,6 +24,7 @@
 	</div>
 
 	<script type="text/javascript">
+		var TAG = "deviceProperties: ";
 		document.addEventListener('deviceready', onDeviceReady, false);
 
 		function onDeviceReady() {
@@ -46,7 +47,7 @@
 
 		function BackKeyDown()
 		{
-			console.log("Back Pressed");
+			console.log(TAG + "Back Pressed");
 		}
         </script>
         <script type="text/javascript" src="cordova.js"></script>

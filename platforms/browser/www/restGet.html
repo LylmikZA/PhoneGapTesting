@@ -11,7 +11,7 @@
 		<div data-role="navbar">
 			<ul>
 				<li><a href="#" onclick="goBack()" data-icon="back">Back</a></li>
-				<li><a href="#" data-icon="home">Languages</a></li>
+				<li><a href="#" onclick="doGet()" data-icon="arrow-u">Get</a></li>
 				<li><a href="#" data-icon="search">Database</a></li>
 			</ul>
 		</div>
@@ -19,70 +19,58 @@
 			<h1>Rest GET</h1>
 		</div>
 
-		<div id='latestTweets'>Performing REST GET...</div>
+		<div id='restResponse'>Press button to GET lynx test</div>
 		
 	</div>
 
 	<script type="text/javascript">
+		var TAG = "restGet: ";
 		document.addEventListener("deviceready", onDeviceReady, false);
-		document.addEventListener("backbutton", BackKeyDown, true);
+		
 
 		function onDeviceReady() {
-			console.log("location: device ready")
-			loadTweets();			
+			console.log(TAG + "device ready");
+			document.addEventListener("backbutton", BackKeyDown, true);
+			alert("device ready");
+			// doGet();			
 		}
 
-		function loadTweets() {
+		function doGet() {
+			var element = document.getElementById("restResponse");
+			element.innerHTML = "Performing GET...";
 			var request = new XMLHttpRequest();
-			request.open("GET", "http://search.twitter.com/search.json?q=phonegap", true);
+			request.open("GET", "http://www.lynxsoftware.co.za/rest/123/test", true);
 			//Call a function when the state changes.
 			request.onreadystatechange = function() {
-				if (request.readyState == 4) {
-					if (request.status == 200 || request.status == 0) {
-						var tweets = JSON.parse(request.responseText);
-						var data = "<table cellspacing='0'>";
-						var tableClass;
-						for (i = 0; i < tweets.results.length; i++) {
-							if (i % 2 == 0) {
-								tableClass = 'tweetOdd';
-							}
-							else {
-								tableClass = 'tweetEven';
-							}
-							data += "<tr style='border: 1px solid black'>";
-							data += "<td class='" + tableClass + "'>";
-							data += "<img src='" + tweets.results[i].profile_image_url + "'/>";
-							data += "</td>";
-							data += "<td class='" + tableClass + "'>";
-							data += "<b>" + tweets.results[i].from_user + "</b><br/>";
-							data += tweets.results[i].text + "<br/>";
-							data += tweets.results[i].created_at;
-							data += "</td>";
-							data += "</tr>";
-						}
-						data += "</table>";
-						var twitter = document.getElementById("latestTweets");
-						twitter.innerHTML = data;
-					}
-				}
+				console.log(TAG + "received response");
+				var response = request.responseText;
+
+				element.innerHTML = response;
 			}
-			console.log("asking for tweets");
+			request.onerror = function() {
+				element.innerHTML = "Error occurred";
+			}
+			console.log(TAG + "asking for tweets");
 			request.send();
 		}
 
-		function goBack()
-		{
-			navigator.geolocation.clearWatch(watchId);
-			window.location = "index.html";
-		}
+		// function doGet(){
+		// 	alert("GET button pressed");
+		// }
 
-		function BackKeyDown()
-		{
-			console.log("Back Pressed");
-		}
-	</script>
-	<script type="text/javascript" src="cordova.js"></script>
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+		
+function goBack()
+{
+	window.location = "index.html";
+}
+
+function BackKeyDown()
+{
+	console.log(TAG + "Back Pressed");
+}
+</script>
+<script type="text/javascript" src="cordova.js"></script>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
 </body>
 </html>

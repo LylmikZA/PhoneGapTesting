@@ -1,87 +1,87 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-	<title>PhoneGap Test</title>
-	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
-</head>
-<body>
-	<div data-role="page">
-		<div data-role="navbar">
-			<ul>
-				<li><a href="#" onclick="gotoDeviceProperties()" data-icon="bars">Device<br/>Properties</a></li>
-				<li><a href="#" onclick="gotoLocalStorage()" data-icon="home">Local<br/>Storage</a></li>
-				<li><a href="#" onclick="exitApp()" data-icon="power">Exit<br/>Application</a></li>
-			</ul>
-		</div>
-		<div data-role="header">
-			<h1>Options</h1>
-		</div>
-		<ul data-role="listview" data-inset="true">
-			<li><a href="#" onclick="gotoGeoLocation()">Geolocation</a></li>
-			<li><a href="#" onclick="gotoRestGet()">Rest GET</a></li>
-			<li><a href="#" onclick="gotoUserInput()">User Input</a></li>
-			<li><a href="#" onclick="gotoSqlite()">Database</a></li>
-			<li><a href="#" onclick="gotoCamera()">Camera</a></li>
-			<li><a href="#">Perl</a></li>
-			<li><a href="#">jQuery</a></li>
-		</ul>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>PhoneGap Test</title>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body>
+    <div data-role="page">
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#" onclick="gotoDeviceProperties()" data-icon="bars">Device<br/>Properties</a></li>
+          <li><a href="#" onclick="gotoLocalStorage()" data-icon="home">Local<br/>Storage</a></li>
+          <li><a href="#" onclick="exitApp()" data-icon="power">Exit<br/>Application</a></li>
+        </ul>
+      </div>
+      <div data-role="header">
+        <h1>Options</h1>
+      </div>
+      <ul data-role="listview" data-inset="true">
+        <li><a href="#" onclick="gotoGeoLocation()">Geolocation</a></li>
+        <li><a href="#" onclick="gotoRestGet()">Rest GET</a></li>
+        <li><a href="#" onclick="gotoUserInput()">User Input</a></li>
+        <li><a href="#" onclick="gotoSqlite()">Database</a></li>
+        <li><a href="#" onclick="gotoCamera()">Camera</a></li>
+        <li><a href="#">Perl</a></li>
+        <li><a href="#">jQuery</a></li>
+      </ul>
 
-	</div>
+    </div>
 
-	<script type="text/javascript">
-	var TAG = "index: ";
-	document.addEventListener("deviceready", onDeviceReady, true);
+    <script type="text/javascript">
+      var TAG = "index: ";
+      document.addEventListener("deviceready", onDeviceReady, true);
 
-	function onDeviceReady()
-	{     
-		document.addEventListener("backbutton", BackKeyDown, true);
-	}
-	function gotoDeviceProperties()
-	{
-		window.location = "deviceProperties.html";
-	}
+      function onDeviceReady()
+      {
+          document.addEventListener("backbutton", BackKeyDown, true);
+      }
+      function gotoDeviceProperties()
+      {
+          window.location = "deviceProperties.html";
+      }
 
-	function gotoLocalStorage()
-	{
-		window.location = "localStorage.html";
-	}
+      function gotoLocalStorage()
+      {
+          window.location = "localStorage.html";
+      }
 
-	function gotoGeoLocation()
-	{
-		window.location = "location.html";
-	}
+      function gotoGeoLocation()
+      {
+          window.location = "location.html";
+      }
 
-	function gotoRestGet()
-	{
-		window.location = "restGet.html";
-	}
+      function gotoRestGet()
+      {
+          window.location = "restGet.html";
+      }
 
-	function gotoUserInput()
-	{
-		window.location = "userInput.html";
-	}
-	function gotoSqlite()
-	{
-		window.location = "sqlite.html";
-	}
-	function gotoCamera()
-	{
-		window.location = "camera.html";
-	}
+      function gotoUserInput()
+      {
+          window.location = "userInput.html";
+      }
+      function gotoSqlite()
+      {
+          window.location = "sqlite.html";
+      }
+      function gotoCamera()
+      {
+          window.location = "camera.html";
+      }
 
-	function BackKeyDown()
-	{
-		console.log(TAG + "Back Pressed");
-	}
-	function exitApp()
-	{
-		navigator.app.exitApp();
-	}
-	</script>
-	<script type="text/javascript" src="cordova.js"></script>
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/jquery.mobile-1.4.5.min.js"></script>
-</body>
+      function BackKeyDown()
+      {
+          console.log(TAG + "Back Pressed");
+      }
+      function exitApp()
+      {
+          navigator.app.exitApp();
+      }
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+  </body>
 </html>
