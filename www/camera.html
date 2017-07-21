@@ -3,6 +3,7 @@
 <head>
   <title>Capture Photo</title>
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1"/>
+  <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
   <script type="text/javascript" src="cordova.js"></script>
   <script src="js/jquery-1.11.1.min.js"></script>
   <script src="js/jquery.mobile-1.4.5.min.js"></script>
@@ -17,8 +18,8 @@
       function onDeviceReady() {
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
-        alert(navigator.camera);
-      }
+//        alert(navigator.camera);
+}
       // Called when a photo is successfully retrieved
       //
       function onPhotoDataSuccess(imageData) {
@@ -54,6 +55,12 @@
       // Called when a photo is successfully retrieved
       //
       function onPhotoURISuccess(imageURI) {
+        window.resolveLocalFileSystemURI(imageURI, function(fileEntry) {
+          fileEntry.file(function(fileObj) {
+            alert("Size = " + fileObj.size);
+          });
+        });
+
         // Uncomment to view the image file URI 
         // console.log(imageURI);
         // Get image handle
@@ -93,11 +100,11 @@
       </script>
     </head>
     <body>
-      <button onclick="capturePhotoWithData();">Capture Photo With Image Data</button> <br>
-      <button onclick="capturePhotoWithFile();">Capture Photo With Image File URI</button> <br>
-      <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
-      <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
-      <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+      <button type="button" onclick="capturePhotoWithData();">Capture Photo With Image Data</button> <br>
+      <button type="button" onclick="capturePhotoWithFile();">Capture Photo With Image File URI</button> <br>
+      <button type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
+      <button type="button" onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
+      <img style="display:none;width:200px;height:200px;" id="smallImage" src="" />
       <img style="display:none;" id="largeImage" src="" />
     </body>
     </html>
