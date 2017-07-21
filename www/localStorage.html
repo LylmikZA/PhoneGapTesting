@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 	<title>Blank App</title>
+	<link rel="stylesheet" href="css/mystylesheet.css" />
 	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
 </head>
 <body>
@@ -18,60 +19,90 @@
 		<div data-role="header">
 			<h1>Local Storage</h1>
 		</div>
-		
-		<button type="button" onclick="initCountries()">Init</button> <br/>
-		<button type="button" onclick="addCountry()">Add Canada</button> <br/>
-		<button type="button" onclick="get1Data()">Get USA Data</button> <br/>
-		<button type="button" onclick="getAllData()">Get All Data</button> <br/>
-		<button type="button" onclick="removeAllData()">Remove All Countries</button> <br/>
-
+		<table width="100%">
+			<tr>
+				<td>
+					<ul class="checkbox-grid">
+						<li><button type="button" onclick="initCountries()">Init</button></li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<ul class="checkbox-grid">
+						<li><button type="button" onclick="addCountry()">Add Canada</button></li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<ul class="checkbox-grid">
+						<li><button type="button" onclick="get1Data()">Get USA Data</button></li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<ul class="checkbox-grid">
+						<li><button type="button" onclick="getAllData()">Get All Data</button></li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<ul class="checkbox-grid">
+						<li><button type="button" onclick="removeAllData()">Remove All Countries</button></li>
+					</ul>
+				</td>
+			</tr>
+		</table>		
 	</div>
 
 	<script type="text/javascript">
-		var TAG = "localStorage: ";
-		document.addEventListener('deviceready', onDeviceReady, false);
+	var TAG = "localStorage: ";
+	document.addEventListener('deviceready', onDeviceReady, false);
 
-		function onDeviceReady() {
-			document.addEventListener("backbutton", BackKeyDown, true);
+	function onDeviceReady() {
+		document.addEventListener("backbutton", BackKeyDown, true);
+	}
+
+	function initCountries() {
+		localStorage.setItem("IN", "India");
+		localStorage.setItem("FR", "France");
+		localStorage.setItem("USA", "U.S.A");
+	}
+
+
+	function addCountry() {
+		localStorage.setItem("CA", "Canada");
+		alert("Canada added successfully");
+	}
+
+	function get1Data() {
+		var usa = localStorage.getItem("USA");
+		alert("Country Name is " + usa);
+	}
+
+	function getAllData() {
+		for(var i in localStorage){
+			alert(localStorage.getItem(i));
 		}
+	}
 
-		function initCountries() {
-			localStorage.setItem("IN", "India");
-			localStorage.setItem("FR", "France");
-			localStorage.setItem("USA", "U.S.A");
-		}
+	function removeAllData() {
+		window.localStorage.clear();
+		alert("All Countries removed successfully");
+	}
 
+	function goBack()
+	{
+		window.location = "index.html";
+	}
 
-		function addCountry() {
-			localStorage.setItem("CA", "Canada");
-			alert("Canada added successfully");
-		}
-
-		function get1Data() {
-			var usa = localStorage.getItem("USA");
-			alert("Country Name is " + usa);
-		}
-
-		function getAllData() {
-			for(var i in localStorage){
-				alert(localStorage.getItem(i));
-			}
-		}
-
-		function removeAllData() {
-			window.localStorage.clear();
-			alert("All Countries removed successfully");
-		}
-
-		function goBack()
-		{
-			window.location = "index.html";
-		}
-
-		function BackKeyDown()
-		{
-			console.log(TAG + "Back Pressed");
-		}
+	function BackKeyDown()
+	{
+		console.log(TAG + "Back Pressed");
+	}
 	</script>
 	<script type="text/javascript" src="cordova.js"></script>
 	<script src="js/jquery-1.11.1.min.js"></script>

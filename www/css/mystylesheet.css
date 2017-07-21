@@ -8,11 +8,23 @@
 .checkbox-grid li {
     display: inline;
     float: left;
-    width: 50%;
-    margin: -10px 0;
+    margin: -10px -20px;
     padding: 0 0 0 0;
+    width: 100%;
 }
 
 .main-layout {
 	margin: 1%;
+}
+
+.table-row {
+	margin: -10px 0;
+}
+
+.column-first {
+	width: 20%;
+}
+
+.column-second {
+	width: 80%;
 }

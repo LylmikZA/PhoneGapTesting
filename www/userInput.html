@@ -21,25 +21,25 @@
 			<h1>User Input</h1>
 		</div>
 
-		<table width="95%">
+		<table width="100%">
 			<tr>
-				<td><label for="txt_in">Text Input:</label></td>
-				<td>
-					<ul class="select">
-						<input type="text" name="text_in" id="txt_in" value="" width="100%"/>
+				<td class="column-first"><label for="txt_in">Text Input what if this is a very long string of text:</label></td>
+				<td class="column-second">
+					<ul class="checkbox-grid">
+						<li><input type="text" name="text_in" id="txt_in" value="" width="100%"/></li>
 					</ul>
 				</td>
 			</tr>
 			<tr>
 				<td><label for="txt_2">Multiline:</label></td>
 				<td>
-					<ul class="select">
-						<textarea name="text_2" id="txt_2" value="" cols="40" rows="10"></textarea>
+					<ul class="checkbox-grid">
+						<li><textarea name="text_2" id="txt_2" value="" cols="40" rows="10"></textarea></li>
 					</ul>
 				</td>
 			</tr>
 			<tr>
-				<td><label>Radio:</label></td>
+				<td><label>Radio string could also be very very very very very long, how would this look on the page?</label></td>
 				<td>
 					<ul class="checkbox-grid">
 						<li><input type="radio" name="radioSelect" id="radio1" value="radio1" checked="checked"/><label for="radio1">Radio 1</label></li>
@@ -70,14 +70,14 @@
 			<tr>
 				<td><label>Dropdown:</label></td>
 				<td>
-					<ul class="select">
-					<select id="select" class="select">
+					<ul class="checkbox-grid">
+					<li><select id="select" class="select">
 						<option value="">Please select</option>
 						<option value="drop1">Drop 1</option>
 						<option value="drop2">Drop 2</option>
 						<option value="drop3">Drop 3</option>
 						<option value="drop4">Drop 4</option>
-					</select>
+					</select></li>
 				</ul>
 				</td>
 			</tr>
