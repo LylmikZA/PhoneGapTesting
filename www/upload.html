@@ -17,6 +17,7 @@
         <div id="links" >Links will go here</div>
 
         <script type="text/javascript" src="cordova.js"></script>
+        <script src="js/myLibrary.js"></script>
         <script src="js/jquery-1.11.1.min.js"></script>
         <script src="js/jquery.mobile-1.4.5.min.js"></script>
         <script type="text/javascript" charset="utf-8">
@@ -140,13 +141,14 @@
 
             function confirmPressed()
             {
-                //          navigator.app.exitApp();
-                navigator.notification.confirm(
-                        'You are the winner!', // message
-                        onConfirm, // callback to invoke with index of button pressed
-                        'Game Over', // title
-                        'Restart,Exit'          // buttonLabels
-                        );
+//                //          navigator.app.exitApp();
+//                navigator.notification.confirm(
+//                        'You are the winner!', // message
+//                        onConfirm, // callback to invoke with index of button pressed
+//                        'Game Over', // title
+//                        'Restart,Cancel,Exit'          // buttonLabels
+//                        );
+                myLibrary.displayConfirmationDialog('Game Over', 'You are the winner', 'Restart,Cancel,Exit', onConfirm);
             }
             // process the confirmation dialog result
             function onConfirm(button) {
