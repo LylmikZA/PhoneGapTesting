@@ -16,6 +16,7 @@
     <plugin name="cordova-plugin-camera"/>
     <plugin name="cordova-plugin-file"/>
     <plugin name="cordova-plugin-file-transfer"/>
+    <plugin name="cordova-plugin-dialogs"/>
 
     <allow-navigation href="*" />
 </widget>
