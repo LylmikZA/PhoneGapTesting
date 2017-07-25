@@ -10,9 +10,10 @@
         <button type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);">Choose a Photo</button>
         <button type="button" onclick="uploadImage();">Upload</button>
         <button type="button" onclick="testJson();">JSON</button>
+        <button type="button" onclick="confirm();">Confirm</button>
 
         <img style="display:none;width:200px;height:200px;" id="smallImage" src="" />
-        
+
         <div id="links" >Links will go here</div>
 
         <script type="text/javascript" src="cordova.js"></script>
@@ -73,7 +74,7 @@
             }
 
             function uploadImage() {
-                if (!selectedImage){
+                if (!selectedImage) {
                     alert("Choose a picture first");
                     return;
                 }
@@ -102,7 +103,7 @@
             function fail(error) {
                 alert("An error has occurred: Code = " + error.code + " Msg: " + error.message);
             }
-            
+
             function displayLinks(r) {
                 var element = document.getElementById('links');
                 var obj = JSON.parse(r);
@@ -113,11 +114,11 @@
                         '<br />' + 'Size: ' + obj.data.img_size +
                         '<br />' + 'Bytes: ' + obj.data.img_bytes + '<br />';
             }
-            
+
             function testJson(json) {
                 var element = document.getElementById('links');
                 element.innerHTML = json + '<br/><br/>';
-                
+
 //                var json = '{ "status_code": 200, "status_txt": "OK", "data": { "img_name": "9WBOk.jpg", "img_url": "http://sk.uploads.im/9WBOk.jpg", "img_view": "http://uploads.im/9WBOk.jpg", "img_width": "1080", "img_height": "1478", "img_attr": "width=\"1080\" height=\"1478\"", "img_size": "341.7 KB", "img_bytes": 349930, "thumb_url": "http://sk.uploads.im/t/9WBOk.jpg", "thumb_width": 360, "thumb_height": 493, "source": "base64 image string", "resized": "0", "delete_key": "34051e5bbfe3158a" } }';
 
                 var start = json.indexOf('img_attr') - 1;
@@ -135,6 +136,21 @@
                 element.innerHTML += '<br/> thumb_url: <a href="' + obj.data.thumb_url + '">' + obj.data.thumb_url + '</a>';
                 element.innerHTML += '<br/><img src="' + obj.data.thumb_url + '"></img>';
 
+            }
+
+            function confirm()
+            {
+                //          navigator.app.exitApp();
+                navigator.notification.confirm(
+                        'You are the winner!', // message
+                        onConfirm, // callback to invoke with index of button pressed
+                        'Game Over', // title
+                        'Restart,Exit'          // buttonLabels
+                        );
+            }
+            // process the confirmation dialog result
+            function onConfirm(button) {
+                alert('You selected button ' + button);
             }
         </script>
 
