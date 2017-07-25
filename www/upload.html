@@ -10,7 +10,7 @@
         <button type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);">Choose a Photo</button>
         <button type="button" onclick="uploadImage();">Upload</button>
         <button type="button" onclick="testJson();">JSON</button>
-        <button type="button" onclick="confirm();">Confirm</button>
+        <button type="button" onclick="confirmPressed();">Confirm</button>
 
         <img style="display:none;width:200px;height:200px;" id="smallImage" src="" />
 
@@ -138,7 +138,7 @@
 
             }
 
-            function confirm()
+            function confirmPressed()
             {
                 //          navigator.app.exitApp();
                 navigator.notification.confirm(
