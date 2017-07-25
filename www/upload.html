@@ -9,6 +9,7 @@
         <!--<button type="button" onclick="getImage();">Upload a Photo</button>-->
         <button type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);">Choose a Photo</button>
         <button type="button" onclick="uploadImage();">Upload</button>
+        <button type="button" onclick="testJson();">JSON</button>
 
         <img style="display:none;width:200px;height:200px;" id="smallImage" src="" />
         
@@ -94,7 +95,8 @@
                 var str = "Code = " + r.responseCode + "\n" + "Response = " + r.response + "\n" + "Sent = " + r.bytesSent;
                 console.log(str);
                 alert(r.response);
-                displayLinks(r);
+//                displayLinks(r);
+                testJson(r);
             }
 
             function fail(error) {
@@ -110,6 +112,27 @@
                         '<br />' + 'Thumbnail: ' + obj.data.thumb_url +
                         '<br />' + 'Size: ' + obj.data.img_size +
                         '<br />' + 'Bytes: ' + obj.data.img_bytes + '<br />';
+            }
+            
+            function testJson(json) {
+                var element = document.getElementById('links');
+//                var json = '{ "status_code": 200, "status_txt": "OK", "data": { "img_name": "9WBOk.jpg", "img_url": "http://sk.uploads.im/9WBOk.jpg", "img_view": "http://uploads.im/9WBOk.jpg", "img_width": "1080", "img_height": "1478", "img_attr": "width=\"1080\" height=\"1478\"", "img_size": "341.7 KB", "img_bytes": 349930, "thumb_url": "http://sk.uploads.im/t/9WBOk.jpg", "thumb_width": 360, "thumb_height": 493, "source": "base64 image string", "resized": "0", "delete_key": "34051e5bbfe3158a" } }';
+
+                var start = json.indexOf('img_attr') - 1;
+                var end = json.indexOf('img_size') - 1;
+
+                var msg = json.substring(0, start) + json.substring(end);
+                element.innerHTML = msg + '<br/><br/>';
+                var obj = JSON.parse(msg);
+
+                element.innerHTML += '<br/> status_code: ' + obj.status_code;
+                element.innerHTML += '<br/> status_txt: ' + obj.status_txt;
+                element.innerHTML += '<br/> img_name: ' + obj.data.img_name;
+                element.innerHTML += '<br/> img_bytes: ' + obj.data.img_bytes;
+                element.innerHTML += '<br/> img_url: <a href="' + obj.data.img_url + '">' + obj.data.img_url + '</a>';
+                element.innerHTML += '<br/> thumb_url: <a href="' + obj.data.thumb_url + '">' + obj.data.thumb_url + '</a>';
+                element.innerHTML += '<br/><img src="' + obj.data.thumb_url + '"></img>';
+
             }
         </script>
 
