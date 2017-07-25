@@ -116,13 +116,15 @@
             
             function testJson(json) {
                 var element = document.getElementById('links');
+                element.innerHTML = json + '<br/><br/>';
+                
 //                var json = '{ "status_code": 200, "status_txt": "OK", "data": { "img_name": "9WBOk.jpg", "img_url": "http://sk.uploads.im/9WBOk.jpg", "img_view": "http://uploads.im/9WBOk.jpg", "img_width": "1080", "img_height": "1478", "img_attr": "width=\"1080\" height=\"1478\"", "img_size": "341.7 KB", "img_bytes": 349930, "thumb_url": "http://sk.uploads.im/t/9WBOk.jpg", "thumb_width": 360, "thumb_height": 493, "source": "base64 image string", "resized": "0", "delete_key": "34051e5bbfe3158a" } }';
 
                 var start = json.indexOf('img_attr') - 1;
                 var end = json.indexOf('img_size') - 1;
 
                 var msg = json.substring(0, start) + json.substring(end);
-                element.innerHTML = msg + '<br/><br/>';
+                element.innerHTML += msg + '<br/><br/>';
                 var obj = JSON.parse(msg);
 
                 element.innerHTML += '<br/> status_code: ' + obj.status_code;
