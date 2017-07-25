@@ -1,65 +1,117 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>File Transfer Example</title>
-  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1"/>
-  <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
-</head>
-<body>
-  <button onclick="getImage();">Upload a Photo</button>
+    <head>
+        <title>File Transfer Example</title>
+        <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1"/>
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+    </head>
+    <body>
+        <!--<button type="button" onclick="getImage();">Upload a Photo</button>-->
+        <button type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);">Choose a Photo</button>
+        <button type="button" onclick="uploadImage();">Upload</button>
 
-  <script type="text/javascript" src="cordova.js"></script>
-  <script src="js/jquery-1.11.1.min.js"></script>
-  <script src="js/jquery.mobile-1.4.5.min.js"></script>
-  <script type="text/javascript" charset="utf-8">
-    // Wait for PhoneGap to load
-    document.addEventListener("deviceready", onDeviceReady, false);
+        <img style="display:none;width:200px;height:200px;" id="smallImage" src="" />
+        
+        <div id="links" >Links will go here</div>
 
-    // PhoneGap is ready
-    function onDeviceReady() {
-      // Do cool things here...
-    }
+        <script type="text/javascript" src="cordova.js"></script>
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            var pictureSource;   // picture source
+            var destinationType; // sets the format of returned value 
+            var selectedImage;
 
-    function getImage() {
-      // Retrieve image file location from specified source
-      navigator.camera.getPicture(uploadPhoto, function(message) {
-        alert('get picture failed');
-      },{
-        quality: 50, 
-        destinationType: navigator.camera.DestinationType.FILE_URI,
-        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-      }
-      );
-    }
+            // Wait for PhoneGap to load
+            document.addEventListener("deviceready", onDeviceReady, false);
 
-    function uploadPhoto(imageURI) {
-      var options = new FileUploadOptions();
-      options.fileKey="file";
-      options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
-      options.mimeType="image/jpeg";
+            // PhoneGap is ready
+            function onDeviceReady() {
+                console.log("device ready");
+                pictureSource = navigator.camera.PictureSourceType;
+                destinationType = navigator.camera.DestinationType;
+            }
 
-      // var params = new Object();
-      // params.value1 = "test";
-      // params.value2 = "param";
+            // A button will call this function
+            //
+            function getPhoto(source) {
+                // Retrieve image file location from specified source
+                navigator.camera.getPicture(onPhotoURISuccess, onFail, {quality: 50,
+                    destinationType: destinationType.FILE_URI,
+                    sourceType: source});
+            }
+            // Called if something bad happens.
+            // 
+            function onFail(message) {
+                alert('Failed because: ' + message);
+            }
 
-      // options.params = params;
-      options.chunkedMode = false;
+            function onPhotoURISuccess(imageURI) {
+                console.log("uri:" + imageURI);
+                window.resolveLocalFileSystemURI(imageURI, function (fileEntry) {
+                    fileEntry.file(function (fileObj) {
+                        alert("Size = " + fileObj.size);
+                    });
+                });
+                displayImage(imageURI);
+            }
 
-      var ft = new FileTransfer();
-      ft.upload(imageURI, "http://uploads.im/api?upload", win, fail, options);
-    }
+            function displayImage(imageUri) {
+                // Get image handle
+                //
+                var smallImage = document.getElementById('smallImage');
+                // Unhide image elements
+                //
+                smallImage.style.display = 'block';
+                // Show the captured photo
+                // The inline CSS rules are used to resize the image
+                //
+                smallImage.src = imageUri;
+                selectedImage = imageUri;
+                console.log("Image displayed: " + imageUri);
+            }
 
-    function win(r) {
-      console.log("Code = " + r.responseCode);
-      console.log("Response = " + r.response);
-      console.log("Sent = " + r.bytesSent);
-      alert(r.response);
-    }
+            function uploadImage() {
+                if (!selectedImage){
+                    alert("Choose a picture first");
+                    return;
+                }
+                console.log("uploading: " + selectedImage);
+                var imageURI = selectedImage;
+                var options = new FileUploadOptions();
+                options.fileKey = "file";
+                options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1) + ".jpg";
+                options.mimeType = "image/jpeg";
 
-    function fail(error) {
-      alert("An error has occurred: Code = " = error.code + " Msg: " + error.message);
-    }
-  </script>
+                options.chunkedMode = false;
 
-</body>
+                console.log("filename=" + options.fileName);
+                var ft = new FileTransfer();
+                ft.upload(imageURI, "http://uploads.im/api?upload", win, fail, options);
+            }
+
+            function win(r) {
+                var str = "Code = " + r.responseCode + "\n" + "Response = " + r.response + "\n" + "Sent = " + r.bytesSent;
+                console.log(str);
+                alert(r.response);
+                displayLinks(r);
+            }
+
+            function fail(error) {
+                alert("An error has occurred: Code = " + error.code + " Msg: " + error.message);
+            }
+            
+            function displayLinks(r) {
+                var element = document.getElementById('links');
+                var obj = JSON.parse(r);
+
+                element.innerHTML = 'Image name: ' + obj.data.img_name +
+                        '<br />' + 'Url: ' + obj.data.img_url +
+                        '<br />' + 'Thumbnail: ' + obj.data.thumb_url +
+                        '<br />' + 'Size: ' + obj.data.img_size +
+                        '<br />' + 'Bytes: ' + obj.data.img_bytes + '<br />';
+            }
+        </script>
+
+    </body>
 </html>
