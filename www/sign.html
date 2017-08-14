@@ -22,21 +22,24 @@
         <input type="text" name="name" id="name">
         <!--<p class="typeItDesc">Review your signature</p>-->
         <p>Draw your signature</p>
-<!--        <ul class="sigNav">
-          <li class="typeIt"><a href="#type-it" >Type It</a></li>
-          <li class="drawIt"><a href="#draw-it" class="current" >Draw It</a></li>
-          <li class="clearButton"><a href="#clear">Clear</a></li>
-        </ul>-->
-        
+        <!--        <ul class="sigNav">
+                  <li class="typeIt"><a href="#type-it" >Type It</a></li>
+                  <li class="drawIt"><a href="#draw-it" class="current" >Draw It</a></li>
+                  <li class="clearButton"><a href="#clear">Clear</a></li>
+                </ul>-->
+
         <div align="center">
           <div class="typed"></div>
-          <canvas width="400" height="200" id="sigmy"></canvas>
+          <canvas width="500" height="250" id="sigmy"></canvas>
           <input type="hidden" name="output" class="output">
         </div>
-        <ul class="sigNav">
-          <li class="clearButton"><a href="#clear">Clear Signature</a></li>
-        </ul>
-        <div><input type="button" value="Save" id="mysign" onclick="setImage();"></div>
+        <div style="display:none">
+          <ul class="sigNav" >
+            <li class="clearButton"><a href="#clear" id="clearLink">Clear Signature</a></li>
+          </ul>
+        </div>
+        <br><button type="button" onclick="clearSig();">Clear Sig</button> <br>
+        <div><input type="button" value="Save" id="mysign" onclick="setImage();"></div><br>
         <img width="200" height="100" id="sigmy1">
       </form>
 
@@ -54,10 +57,10 @@
           function onDeviceReady() {
             console.log("device ready");
             document.addEventListener("backbutton", BackKeyDown, true);
-            
+
             $('.sigPad').signaturePad();
-            $('.sigmy').width(window.innerWidth*0.9);
-            $('.sigmy').height(window.innerHeight*0.6);
+            $('.sigmy').width(window.innerWidth * 0.9);
+            $('.sigmy').height(window.innerHeight * 0.6);
           }
 
           function BackKeyDown()
@@ -73,17 +76,47 @@
 
           $(document).ready(function () {
             $('.sigPad').signaturePad();
-            $('.sigmy').width(window.innerWidth*0.9);
-            $('.sigmy').height(window.innerHeight*0.6);
-            
+            $('.sigmy').width(window.innerWidth * 0.9);
+            $('.sigmy').height(window.innerHeight * 0.6);
+
           });
           function setImage() {
             var a = $("#sigmy")[0];
-            var b = a.toDataURL();
-            document.getElementById("sigmy1").src = b;
-
+//            if (!canvasDrawn) {
+//              alert("Please provide signature");
+//            }
+            if (!isDrawn()) {
+              alert("Please provide signature");
+            } else {
+              var b = a.toDataURL();
+              document.getElementById("sigmy1").src = b;
+            }
           }
 
+          function clearSig() {
+            $("#clearLink").click();
+          }
+
+          function isDrawn() {
+            var canvas = document.getElementById('sigmy');
+            if (!canvas.getContext)
+              return;
+            var ctx = canvas.getContext('2d');
+            var w = canvas.width;
+            var h = canvas.height;
+            var drawn = false;
+            var d = ctx.getImageData(0, 0, w, h); //image data 
+            var len = d.data.length;
+            console.log("len = " + len);
+            for (var i = 0; i < len; i++) {
+              if (d.data[i] != 255) {  //check if pixel is not white
+                console.log("drawn on " + i + "(" + d.data[i] + ")");
+                drawn = true;
+                break;
+              }
+            }
+            return drawn;
+          }
 
     </script>
 
