@@ -1,164 +1,149 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-	<title>Blank App</title>
-	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
-</head>
-<body onload="onBodyLoad()">
-	<div data-role="page">
-		<div class="main-layout">
-			<div data-role="navbar">
-				<ul>
-					<li><a href="#" onclick="goBack()" data-icon="back">Back</a></li>
-					<li><a href="#" data-icon="home">Languages</a></li>
-					<li><a href="#" data-icon="search">Database</a></li>
-				</ul>
-			</div>
-			<div data-role="header">
-				<h1>WebSQL</h1>
-			</div>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Blank App</title>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body onload="onBodyLoad()">
+    <div class="mytoolbar" id="toolbar">
+      <ul>
+        <li>Sqlite</li>
+        <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
+      </ul>
+    </div>   
+    <div class="main">
 
+      <input id="txFirstName" type="email" placeholder="Name" style="text-transform: capitalize;">
+      <input id="txContact" type="number" placeholder="Contact Number">
 
+      <select id="level" class="select">
+            <option value=0>Select Access Level</option>
+            <option value=1>Admin</option>
+            <option value=2>User</option>
+      </select>
 
-			<input id="txFirstName" type="text" placeholder="FirstName">
-			<input id="txLastName" type="text" placeholder="Last Name">
-			<input type="button" value="Add record" onClick="AddValueToDB()">
-			<input type="button" value="Refresh" onClick="ListDBValues()"> <br>
-			<br>
-			<span style="font-weight:bold;">Currently stored values:</span>
-			<span id="lbUsers"></span>
-		</div>
-	</div>
+      <select id="enabled" class="select">
+            <option value=1>Enabled</option>
+            <option value=0>Disabled</option>
+      </select>
 
+      <input id="txDate" type="date" min="2017-01-01" max="2017-12-31">
+      <input id="txTime" type="time">
+      
+      <br/><br/><br/>
+      <input type="button" value="Add record" onClick="AddValueToDB()">
+      <input type="button" value="Delete All" onClick="DeleteAll()">
+      <input type="button" value="Refresh" onClick="ListDBValues()"> <br>
+      <br>
+      <span style="font-weight:bold;">Currently stored values:</span>
+      <span id="lbUsers"></span>
+    </div>
 
+    <script type="text/javascript">
+      // global variables
+      var TAG = "sqlite: ";
 
-	<script type="text/javascript">
-	// global variables
-	var db;
-	var shortName = 'WebSqlDB';
-	var version = '1.0';
-	var displayName = 'WebSqlDB';
-	var maxSize = 65535;
+      document.addEventListener('deviceready', onDeviceReady, false);
 
-	var TAG = "localStorage: ";
+      function errorHandler(transaction, error) {
+          alert('Error: ' + error.message + ' code: ' + error.code);
+      }
 
-	document.addEventListener('deviceready', onDeviceReady, false);
+      function successCallBack() {
+          console.log('success - clearing fields');
+          $('#txFirstName').val('');
+          $('#txContact').val('');
+          $("#level").val(0).trigger('change');  // Change and trigger to '0'
+          $("#enabled").val(1).trigger('change');  // Change and trigger to '0'
+//          console.log('selected item: ' + $('#level').val());
+          ListDBValues();
+      }
 
-	// this is called when an error happens in a transaction
-	function errorHandler(transaction, error) {
-		alert('Error: ' + error.message + ' code: ' + error.code);
+      function nullHandler() {
+          console.log('null');
+      }
 
-	}
+      function onBodyLoad() {
+          console.log('onBodyLoad');
+          if (!window.openDatabase) {
+              alert('Databases are not supported in this browser.');
+              gotoHome();
+              return;
+          }
+          console.log('open db');
+          dbHelper.createDatabase(successCallBack, errorHandler);
+      }
 
-	// this is called when a successful transaction happens
-	function successCallBack() {
-		alert("DEBUGGING: success");
+      function ListDBValues() {
+          console.log('select *');
+          dbHelper.findAll(personList, findSuccess, errorHandler);
+      }
 
-	}
+      function DeleteAll() {
+          console.log('delete *');
+          dbHelper.deleteAll(deleteSuccess, errorHandler);
+      }
 
-	function nullHandler(){};
+      function deleteSuccess() {
+          personList.length = 0;
+          successCallBack();
+      }
 
-	// called when the application loads
-	function onBodyLoad() {
+      function findSuccess() {
+          console.log('findSuccess - ' + personList.length);
 
-		// This alert is used to make sure the application is loaded correctly
-		// you can comment this out once you have the application working
-		alert("DEBUGGING: we are in the onBodyLoad() function");
+          $('#lbUsers').html('');
+          if (personList.length > 0) {
+              for (var i = 0; i < personList.length; i++) {
+                  $('#lbUsers').append('<br>' + personList[i].id + '. ' + personList[i].name + ' ' + personList[i].contact + ' ' + personList[i].level + ' ' + personList[i].enabled);
+              }
+          } else {
+              $('#lbUsers').html('Empty');
+          }
+      }
 
-		if (!window.openDatabase) {
-		   // not all mobile devices support databases  if it does not, the following alert will display
-		   // indicating the device will not be albe to run this application
-		   alert('Databases are not supported in this browser.');
-		   return;
-		}
+      function AddValueToDB() {
+          console.log('insert');
 
-		// this line tries to open the database base locally on the device
-		// if it does not exist, it will create it and return a database object stored in variable db
-		db = openDatabase(shortName, version, displayName, maxSize);
+          var name = $('#txFirstName').val();
+          var contact = $('#txContact').val();
+          var level = $('#level').val();
+          var enabled = $('#enabled').val();
+          if (name === '' || contact === '' || level == 0){
+            alert('Please complete all fields');
+            return;
+          }
+          var p = new Person(0, name, contact, level, enabled);
+          dbHelper.insert(p, successCallBack, errorHandler);
+      }
 
-		// this line will try to create the table User in the database just created/opened
-		db.transaction(function(tx){
+      var personList = [];
 
-		  // you can uncomment this next line if you want the User table to be empty each time the application runs
-		  // tx.executeSql( 'DROP TABLE User',nullHandler,nullHandler);
+      function onDeviceReady() {
+          document.addEventListener("backbutton", BackKeyDown, true);
+      }
 
-		  // this line actually creates the table User if it does not exist and sets up the three columns and their types
-		  // note the UserId column is an auto incrementing column which is useful if you want to pull back distinct rows
-		  // easily from the table.
-		  tx.executeSql( 'CREATE TABLE IF NOT EXISTS User(UserId INTEGER NOT NULL PRIMARY KEY, FirstName TEXT NOT NULL, LastName TEXT NOT NULL)', [],nullHandler,errorHandler);
-		},errorHandler,successCallBack);
+      function gotoHome()
+      {
+          window.location = "menu.html";
+      }
 
-	}
+      function BackKeyDown()
+      {
+          console.log(TAG + "Back Pressed");
+          gotoHome();
+      }
 
-	// list the values in the database to the screen using jquery to update the #lbUsers element
-	function ListDBValues() {
+    </script>
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/dbHelper.js"></script>
+    <script src="js/entities.js"></script>
 
-		if (!window.openDatabase) {
-			alert('Databases are not supported in this browser.');
-			return;
-		}
-
-		// this line clears out any content in the #lbUsers element on the page so that the next few lines will show updated
-		// content and not just keep repeating lines
-		$('#lbUsers').html('');
-
-		// this next section will select all the content from the User table and then go through it row by row
-		// appending the UserId  FirstName  LastName to the  #lbUsers element on the page
-		db.transaction(function(transaction) {
-			transaction.executeSql('SELECT * FROM User;', [],
-				function(transaction, result) {
-					if (result != null && result.rows != null) {
-						for (var i = 0; i < result.rows.length; i++) {
-							var row = result.rows.item(i);
-							$('#lbUsers').append('<br>' + row.UserId + '. ' + row.FirstName+ ' ' + row.LastName);
-						}
-					}
-				},errorHandler);
-		},errorHandler,nullHandler);
-
-		return;
-	}
-
-	// this is the function that puts values into the database using the values from the text boxes on the screen
-	function AddValueToDB() {
-
-		if (!window.openDatabase) {
-			alert('Databases are not supported in this browser.');
-			return;
-		}
-
-		// this is the section that actually inserts the values into the User table
-		db.transaction(function(transaction) {
-			transaction.executeSql('INSERT INTO User(FirstName, LastName) VALUES (?,?)',[$('#txFirstName').val(), $('#txLastName').val()], nullHandler,errorHandler);
-		});
-
-		// this calls the function that will show what is in the User table in the database
-		ListDBValues();
-
-		return false;
-	}
-
-
-
-	function onDeviceReady() {
-		document.addEventListener("backbutton", BackKeyDown, true);
-	}
-
-	function goBack()
-	{
-		window.location = "index.html";
-	}
-
-	function BackKeyDown()
-	{
-		console.log(TAG + "Back Pressed");
-	}
-</script>
-<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
-<script type="text/javascript" src="cordova.js"></script>
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/jquery.mobile-1.4.5.min.js"></script>
-</body>
+  </body>
 </html>

@@ -1,186 +1,175 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-	<title>Page 1</title>
-	<link rel="stylesheet" href="css/mystylesheet.css" />
-	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
-</head>
-<body>
-	<div data-role="page">
-		<div class="main-layout">
-		<div data-role="navbar">
-			<ul>
-				<li><a href="#" onclick="goBack()" data-icon="back">Back</a></li>
-				<li><a href="#" data-icon="home">Languages</a></li>
-				<li><a href="#" data-icon="search">Database</a></li>
-			</ul>
-		</div>
-		<div data-role="header">
-			<h1>User Input</h1>
-		</div>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Page 1</title>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body>
+    <div class="mytoolbar" id="toolbar">
+      <ul>
+        <li>User input</li>
+        <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
+      </ul>
+    </div>   
 
-		<table width="100%">
-			<tr>
-				<td class="column-first"><label for="txt_in">Text Input what if this is a very long string of text:</label></td>
-				<td class="column-second">
-					<ul class="checkbox-grid">
-						<li><input type="text" name="text_in" id="txt_in" value="" width="100%"/></li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td><label for="txt_2">Multiline:</label></td>
-				<td>
-					<ul class="checkbox-grid">
-						<li><textarea name="text_2" id="txt_2" value="" cols="40" rows="10"></textarea></li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td><label>Radio string could also be very very very very very long, how would this look on the page?</label></td>
-				<td>
-					<ul class="checkbox-grid">
-						<li><input type="radio" name="radioSelect" id="radio1" value="radio1" checked="checked"/><label for="radio1">Radio 1</label></li>
-						<li><input type="radio" name="radioSelect" id="radio2" value="radio2" /><label for="radio2">Radio 2</label></li>
-						<li><input type="radio" name="radioSelect" id="radio3" value="radio3" /><label for="radio3">Radio 3</label></li>
-						<li><input type="radio" name="radioSelect" id="radio4" value="radio4" /><label for="radio4">Radio 4</label></li>
-						<li><input type="radio" name="radioSelect" id="radio5" value="radio5" /><label for="radio5">Radio 5</label></li>
-						<li><input type="radio" name="radioSelect" id="radio6" value="radio6" /><label for="radio6">Radio 6</label></li>
-						<li><input type="radio" name="radioSelect" id="radio7" value="radio7" /><label for="radio7">Radio 7</label></li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td><label>Check:</label></td>
-				<td>
-					<ul class="checkbox-grid">
-						<li><input type="checkbox" id="check1" value="value1" /><label for="check1">Text 1</label></li>
-						<li><input type="checkbox" id="check2" value="value2" /><label for="check2">Text 2</label></li>
-						<li><input type="checkbox" id="check3" value="value3" /><label for="check3">Text 3</label></li>
-						<li><input type="checkbox" id="check4" value="value4" /><label for="check4">Text 4</label></li>
-						<li><input type="checkbox" id="check5" value="value5" /><label for="check5">Text 5</label></li>
-						<li><input type="checkbox" id="check6" value="value6" /><label for="check6">Text 6</label></li>
-						<li><input type="checkbox" id="check7" value="value7" /><label for="check7">Text 7</label></li>
-						<li><input type="checkbox" id="check8" value="value8" /><label for="check8">Text 8</label></li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td><label>Dropdown:</label></td>
-				<td>
-					<ul class="checkbox-grid">
-					<li><select id="select" class="select">
-						<option value="">Please select</option>
-						<option value="drop1">Drop 1</option>
-						<option value="drop2">Drop 2</option>
-						<option value="drop3">Drop 3</option>
-						<option value="drop4">Drop 4</option>
-					</select></li>
-				</ul>
-				</td>
-			</tr>
+      <div class="main">
+        <table width="100%">
+          <tr>
+            <td class="column-first"><label for="txt_in">Text Input what if this is a very long string of text:</label></td>
+            <td class="column-second">
+              <ul class="checkbox-grid">
+                <li><input type="text" name="text_in" id="txt_in" value=""/></li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="txt_2">Multiline:</label></td>
+            <td>
+              <ul class="checkbox-grid">
+                <li><textarea name="text_2" id="txt_2" cols="40" rows="10"></textarea></li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Radio string could also be very very very very very long, how would this look on the page?</label></td>
+            <td>
+              <ul class="checkbox-grid">
+                <li><input type="radio" name="radioSelect" id="radio1" value="radio1" /><label for="radio1">Radio 1</label></li>
+                <li><input type="radio" name="radioSelect" id="radio2" value="radio2" /><label for="radio2">Radio 2</label></li>
+                <li><input type="radio" name="radioSelect" id="radio3" value="radio3" /><label for="radio3">Radio 3</label></li>
+                <li><input type="radio" name="radioSelect" id="radio4" value="radio4" /><label for="radio4">Radio 4</label></li>
+                <li><input type="radio" name="radioSelect" id="radio5" value="radio5" /><label for="radio5">Radio 5</label></li>
+                <li><input type="radio" name="radioSelect" id="radio6" value="radio6" /><label for="radio6">Radio 6</label></li>
+                <li><input type="radio" name="radioSelect" id="radio7" value="radio7" /><label for="radio7">Radio 7</label></li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Check:</label></td>
+            <td>
+              <ul class="checkbox-grid">
+                <li><input type="checkbox" id="check1" value="value1" /><label for="check1">Text 1</label></li>
+                <li><input type="checkbox" id="check2" value="value2" /><label for="check2">Text 2</label></li>
+                <li><input type="checkbox" id="check3" value="value3" /><label for="check3">Text 3</label></li>
+                <li><input type="checkbox" id="check4" value="value4" /><label for="check4">Text 4</label></li>
+                <li><input type="checkbox" id="check5" value="value5" /><label for="check5">Text 5</label></li>
+                <li><input type="checkbox" id="check6" value="value6" /><label for="check6">Text 6</label></li>
+                <li><input type="checkbox" id="check7" value="value7" /><label for="check7">Text 7</label></li>
+                <li><input type="checkbox" id="check8" value="value8" /><label for="check8">Text 8</label></li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Dropdown:</label></td>
+            <td>
+              <ul class="checkbox-grid">
+                <li><select id="select" class="select">
+                    <option value="">Please select</option>
+                    <option value="drop1">Drop 1</option>
+                    <option value="drop2">Drop 2</option>
+                    <option value="drop3">Drop 3</option>
+                    <option value="drop4">Drop 4</option>
+                  </select></li>
+              </ul>
+            </td>
+          </tr>
 
-		</table>
-		<button type="button" onclick="buttonClicked()">Submit</button> <br/>
-</div>
-
-	</div>
-
-	<script type="text/javascript">
-	var TAG = "restGet: ";
-	document.addEventListener("deviceready", onDeviceReady, false);
-	
-
-	function onDeviceReady() {
-		console.log(TAG + "device ready");
-		document.addEventListener("backbutton", BackKeyDown, true);
-	}
-
-	function buttonClicked() {
-		var txt_in = $('#txt_in').val();
-		var msg = "text in = " + txt_in;
-
-		var txt_multi = $('#txt_2').val();
-		msg += "\n" + "multi = " + txt_multi;
-
-		var radio_select = "Unknown";
-		if (document.getElementById('radio1').checked) {
-			radio_select = document.getElementById('radio1').value;
-		}
-		else if (document.getElementById('radio2').checked) {
-			radio_select = document.getElementById('radio2').value;
-		}
-		else if (document.getElementById('radio3').checked) {
-			radio_select = document.getElementById('radio3').value;
-		}
-		else if (document.getElementById('radio4').checked) {
-			radio_select = document.getElementById('radio4').value;
-		}
-		else if (document.getElementById('radio5').checked) {
-			radio_select = document.getElementById('radio5').value;
-		}
-		else if (document.getElementById('radio6').checked) {
-			radio_select = document.getElementById('radio6').value;
-		}
-		else if (document.getElementById('radio7').checked) {
-			radio_select = document.getElementById('radio7').value;
-		}
-		msg += "\n" + "Radio = " + radio_select;
+        </table>
+        <button type="button" onclick="buttonClicked()">Submit</button> <br/>
+      </div>
 
 
-		var check_select = "";
-		if (document.getElementById('check1').checked) {
-			check_select += "," + document.getElementById('check1').value;
-		}
-		if (document.getElementById('check2').checked) {
-			check_select += "," + document.getElementById('check2').value;
-		}
-		if (document.getElementById('check3').checked) {
-			check_select += "," + document.getElementById('check3').value;
-		}
-		if (document.getElementById('check4').checked) {
-			check_select += "," + document.getElementById('check4').value;
-		}
-		if (document.getElementById('check5').checked) {
-			check_select += "," + document.getElementById('check5').value;
-		}
-		if (document.getElementById('check6').checked) {
-			check_select += "," + document.getElementById('check6').value;
-		}
-		if (document.getElementById('check7').checked) {
-			check_select += "," + document.getElementById('check7').value;
-		}
-		if (document.getElementById('check8').checked) {
-			check_select += "," + document.getElementById('check8').value;
-		}
-		if (check_select != ""){
-			check_select = check_select.substring(1);
-		}
-		msg += "\n" + "Check = " + check_select;
-
-		var dropdown = $('#select').val();
-		msg += "\n" + "Dropdown = " + dropdown;
+    <script type="text/javascript">
+      var TAG = "userInput: ";
+      document.addEventListener("deviceready", onDeviceReady, false);
 
 
-		alert(msg);
+      function onDeviceReady() {
+          console.log(TAG + "device ready");
+          document.addEventListener("backbutton", BackKeyDown, true);
+      }
 
-		console.log(TAG + "text in = " + txt_in);
-	}
+      function buttonClicked() {
+          var txt_in = $('#txt_in').val();
+          var msg = "text in = " + txt_in;
 
-	function goBack()
-	{
-		window.location = "index.html";
-	}
+          var txt_multi = $('#txt_2').val();
+          msg += "\n" + "multi = " + txt_multi;
 
-	function BackKeyDown()
-	{
-		console.log(TAG + "Back Pressed");
-	}
-	</script>
-	<script type="text/javascript" src="cordova.js"></script>
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/jquery.mobile-1.4.5.min.js"></script>
-</body>
+          var radio_select = "Unknown";
+          if (document.getElementById('radio1').checked) {
+              radio_select = document.getElementById('radio1').value;
+          } else if (document.getElementById('radio2').checked) {
+              radio_select = document.getElementById('radio2').value;
+          } else if (document.getElementById('radio3').checked) {
+              radio_select = document.getElementById('radio3').value;
+          } else if (document.getElementById('radio4').checked) {
+              radio_select = document.getElementById('radio4').value;
+          } else if (document.getElementById('radio5').checked) {
+              radio_select = document.getElementById('radio5').value;
+          } else if (document.getElementById('radio6').checked) {
+              radio_select = document.getElementById('radio6').value;
+          } else if (document.getElementById('radio7').checked) {
+              radio_select = document.getElementById('radio7').value;
+          }
+          msg += "\n" + "Radio = " + radio_select;
+
+
+          var check_select = "";
+          if (document.getElementById('check1').checked) {
+              check_select += "," + document.getElementById('check1').value;
+          }
+          if (document.getElementById('check2').checked) {
+              check_select += "," + document.getElementById('check2').value;
+          }
+          if (document.getElementById('check3').checked) {
+              check_select += "," + document.getElementById('check3').value;
+          }
+          if (document.getElementById('check4').checked) {
+              check_select += "," + document.getElementById('check4').value;
+          }
+          if (document.getElementById('check5').checked) {
+              check_select += "," + document.getElementById('check5').value;
+          }
+          if (document.getElementById('check6').checked) {
+              check_select += "," + document.getElementById('check6').value;
+          }
+          if (document.getElementById('check7').checked) {
+              check_select += "," + document.getElementById('check7').value;
+          }
+          if (document.getElementById('check8').checked) {
+              check_select += "," + document.getElementById('check8').value;
+          }
+          if (check_select != "") {
+              check_select = check_select.substring(1);
+          }
+          msg += "\n" + "Check = " + check_select;
+
+          var dropdown = $('#select').val();
+          msg += "\n" + "Dropdown = " + dropdown;
+
+
+          alert(msg);
+
+          console.log(TAG + "text in = " + txt_in);
+      }
+
+      function gotoHome()
+      {
+          window.location = "menu.html";
+      }
+
+      function BackKeyDown()
+      {
+          console.log(TAG + "Back Pressed");
+          gotoHome();
+      }
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+  </body>
 </html>

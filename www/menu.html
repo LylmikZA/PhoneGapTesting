@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>PhoneGap Test</title>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body>
+    <div class="mytoolbar" id="toolbar">
+      <ul>
+        <li>Home</li>
+        <li style="float:right"><a href="#" onclick="logout()"><img src="img/icon/power.png"/></a></li>
+      </ul>
+    </div>
+    <div class="main">
+      <ul data-role="listview" data-inset="true">
+        <li><a href="#" onclick="gotoPage('deviceProperties')">Device Properties</a></li>
+        <li><a href="#" onclick="gotoPage('localStorage')">Local Storage</a></li>
+        <li><a href="#" onclick="gotoPage('location')">Location</a></li>
+        <li><a href="#" onclick="gotoPage('restGet')">Rest GET</a></li>
+        <li><a href="#" onclick="gotoPage('userInput')">User Input</a></li>
+        <li><a href="#" onclick="gotoPage('sqlite')">Database</a></li>
+        <li><a href="#" onclick="gotoPage('camera')">Camera</a></li>
+        <li><a href="#" onclick="gotoPage('upload')">Upload</a></li>
+        <li><a href="#" onclick="gotoPage('crypto')">Crypto</a></li>
+        <li><a href="#" onclick="gotoPage('overlay')">Overlay</a></li>
+        <li><a href="#" onclick="gotoPage('classLists')">Classes and Lists</a></li>
+        <li><a href="#" onclick="gotoPage('questionnaire')">Questionnaire</a></li>
+      </ul>
+    </div>
+
+    <script type="text/javascript">
+      var TAG = "index: ";
+      document.addEventListener("deviceready", onDeviceReady, true);
+
+      function onDeviceReady()
+      {
+          document.addEventListener("backbutton", BackKeyDown, true);
+      }
+
+      function gotoPage(page)
+      {
+          window.location = page + ".html";
+      }
+
+      function BackKeyDown()
+      {
+          console.log(TAG + "Back Pressed");
+          logout();
+      }
+      function logout()
+      {
+          window.location = "index.html";
+      }
+
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+  </body>
+</html>

@@ -4,31 +4,37 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title>PhoneGap Test</title>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
     <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="css/toastr.min.css" />
   </head>
   <body>
-    <div data-role="page">
-      <div data-role="navbar">
-        <ul>
-          <li><a href="#" onclick="gotoDeviceProperties()" data-icon="bars">Device<br/>Properties</a></li>
-          <li><a href="#" onclick="gotoLocalStorage()" data-icon="home">Local<br/>Storage</a></li>
-          <li><a href="#" onclick="exitApp()" data-icon="power">Exit<br/>Application</a></li>
-        </ul>
-      </div>
-      <div data-role="header">
-        <h1>Options</h1>
-      </div>
-      <ul data-role="listview" data-inset="true">
-        <li><a href="#" onclick="gotoGeoLocation()">Geolocation</a></li>
-        <li><a href="#" onclick="gotoRestGet()">Rest GET</a></li>
-        <li><a href="#" onclick="gotoUserInput()">User Input</a></li>
-        <li><a href="#" onclick="gotoSqlite()">Database</a></li>
-        <li><a href="#" onclick="gotoCamera()">Camera</a></li>
-        <li><a href="#" onclick="gotoUpload()">Upload</a></li>
-        <li><a href="#">jQuery</a></li>
-      </ul>
+    <div class="loginPage">
 
+      <img src="img/keynote-circular-logo2.png" width="150" height="150" style="padding-top: 70px"/>
+
+      <table width="75%" style="padding-top: 30px; margin:0 auto;">
+        <tr>
+          <td valign="middle" width="50px"><img src="img/icon/person.png"/></td>
+          <td>
+            <input type="text" name="txt_email" id="txt_email" value="test@test.com"/>
+          </td>
+        </tr>
+        <tr>
+          <td valign="middle"><img src="img/icon/lock.png"/></td>
+          <td>
+            <input type="password" name="txt_password" id="txt_password" value="123"/>
+          </td>
+        </tr>
+      </table>
+      <div style="width:25%;margin: 0 auto;">
+        <button type="button" onclick="loginUser();">Login</button>
+      </div>
+      <div class="lynxLogo">
+        <img src="img/lynxsoftware2.png" width="200" height="100"/>
+      </div>
     </div>
+
 
     <script type="text/javascript">
       var TAG = "index: ";
@@ -37,55 +43,63 @@
       function onDeviceReady()
       {
           document.addEventListener("backbutton", BackKeyDown, true);
-      }
-      function gotoDeviceProperties()
-      {
-          window.location = "deviceProperties.html";
-      }
-
-      function gotoLocalStorage()
-      {
-          window.location = "localStorage.html";
-      }
-
-      function gotoGeoLocation()
-      {
-          window.location = "location.html";
-      }
-
-      function gotoRestGet()
-      {
-          window.location = "restGet.html";
+          toastr.options = {
+              "closeButton": false,
+              "debug": false,
+              "newestOnTop": false,
+              "progressBar": false,
+              "positionClass": "toast-bottom-center",
+              "preventDuplicates": true,
+              "onclick": null,
+              "showDuration": "0",
+              "hideDuration": "0",
+              "timeOut": "2000",
+              "extendedTimeOut": "1000",
+              "showEasing": "swing",
+              "hideEasing": "linear",
+              "showMethod": "fadeIn",
+              "hideMethod": "fadeOut"
+          }
       }
 
-      function gotoUserInput()
+      function gotoMenu()
       {
-          window.location = "userInput.html";
-      }
-      function gotoSqlite()
-      {
-          window.location = "sqlite.html";
-      }
-      function gotoCamera()
-      {
-          window.location = "camera.html";
-      }
-      function gotoUpload()
-      {
-          window.location = "upload.html";
+          window.location = "menu.html";
       }
 
+      function loginUser() {
+          var email = $('#txt_email').val();
+          var password = $('#txt_password').val();
+          if (email === 'test@test.com' && password === '123') {
+              window.location = "menu.html";
+          } else {
+              var pw = document.getElementById("txt_password");
+              pw.value = '';
+//              alert("Invalid login");
+              toastr.error("Invalid login");
+          }
+      }
+      var backPressed = 0;
       function BackKeyDown()
       {
-          console.log(TAG + "Back Pressed");
+          var now = new Date().getTime();
+          console.log(TAG + "Back Pressed - " + now);
+          if (now - backPressed < 2000) {
+              exitApp();
+          } else {
+              backPressed = now;
+              toastr.info("Press back again to exit");
+          }
       }
       function exitApp()
       {
           navigator.app.exitApp();
       }
+
     </script>
     <script type="text/javascript" src="cordova.js"></script>
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/toastr.min.js"></script>
   </body>
 </html>

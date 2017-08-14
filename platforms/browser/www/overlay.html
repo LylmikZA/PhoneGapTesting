@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Page 1</title>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body>
+    <div class="mytoolbar" id="toolbar">
+      <ul>
+        <li style="float:left"><a href="#" onclick="toggleOverlay()"><img src="img/icon/list.png"/></a></li>
+        <li>Overlay</li>
+        <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
+      </ul>
+    </div>    
+    <div class="main">
+      <div id="demo1"></div>
+    </div>
+
+    <div id="myNav" class="overlay">
+      <!--<a href="javascript:void(0)" class="closebtn" onclick="hideOverlay()">&times;</a>-->
+      <div class="overlay-content">
+        <a href="#" onclick="select(1);">About</a>
+        <a href="#" onclick="select(2);">Services</a>
+        <a href="#" onclick="select(3);">Clients</a>
+        <a href="#" onclick="select(4);">Contact</a>
+        <a href="#" onclick="hideOverlay();">Close</a>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var TAG = "overlay: ";
+      var overlayShown = false;
+      document.addEventListener("deviceready", onDeviceReady, false);
+
+      function select(number) {
+          hideOverlay();
+          var display = "You chose option " + number + " (";
+          switch(number){
+            case 1:
+              display += "About";
+              break;
+            case 2:
+              display += "Services";
+              break;
+            case 3:
+              display += "Clients";
+              break;
+            case 4:
+              display += "Contact";
+              break;
+          }
+          display += ")";
+          
+          
+          document.getElementById("demo1").innerHTML = display;
+      }
+
+      function toggleOverlay() {
+          overlayShown ? hideOverlay() : showOverlay();
+      }
+
+      function showOverlay() {
+          overlayShown = true;
+          document.getElementById("myNav").style.width = "50%";
+          document.getElementById("demo1").innerHTML = "";
+      }
+
+      function hideOverlay() {
+          overlayShown = false;
+          document.getElementById("myNav").style.width = "0%";
+      }
+
+      function onDeviceReady() {
+          console.log(TAG + "device ready");
+          document.addEventListener("backbutton", BackKeyDown, true);
+      }
+
+      function gotoHome()
+      {
+          window.location = "menu.html";
+      }
+
+      function BackKeyDown()
+      {
+          console.log(TAG + "Back Pressed");
+          gotoHome();
+      }
+
+
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+  </body>
+</html>
