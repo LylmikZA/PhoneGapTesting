@@ -23,69 +23,73 @@
       </div>
     </div>
 
-      <!--<div id="loading" align="center" style="display: none;margin: 0 auto">-->
-      <div id="loading" class="loading">
-        <div id="loadDesc" class="loadDesc">
-          Performing GET... what if this is a long message, how would it look like?
-        </div>
+    <!--<div id="loading" align="center" style="display: none;margin: 0 auto">-->
+    <div id="loading" class="loading">
+      <div id="loadDesc" class="loadDesc">
+        Performing GET... what if this is a long message, how would it look like?
       </div>
+    </div>
     <script type="text/javascript">
       var TAG = "restGet: ";
       document.addEventListener("deviceready", onDeviceReady, false);
 
 
       function onDeviceReady() {
-          console.log(TAG + "device ready");
-          document.addEventListener("backbutton", BackKeyDown, true);
-          alert("device ready");
-          // doGet();			
+        console.log(TAG + "device ready");
+        document.addEventListener("backbutton", BackKeyDown, true);
+//        alert("device ready");
+        // doGet();			
       }
 
       function doGet() {
-          $("#loading").show();
-          var element = document.getElementById("restResponse");
-          element.innerHTML = "Performing GET...";
-          var request = new XMLHttpRequest();
-          request.open("GET", "http://www.lynxsoftware.co.za/rest/123/test", true);
+        $("#loading").show();
+        var element = document.getElementById("restResponse");
+        element.innerHTML = "Performing GET...";
+        var request = new XMLHttpRequest();
+        request.open("GET", "http://www.lynxsoftware.co.za/rest/123/test", true);
 //          request.open("GET", "http://localhost:8080/Keynote/rest/123/login/test", true);
-          //Call a function when the state changes.
-          request.onreadystatechange = function () {
-              $("#loading").hide();
-              console.log(TAG + "received response");
-              var response = request.responseText;
-
-              element.innerHTML = response;
-          }
-          request.onerror = function () {
-              $("#loading").hide();
-              element.innerHTML = "Error occurred";
-          }
-          console.log(TAG + "starting GET");
-          request.send();
+        //Call a function when the state changes.
+        request.onreadystatechange = function () {
+          $("#loading").hide();
+          console.log(TAG + "received response: " + request.responseText);
+          console.log(TAG + "received event " + request.readyState);
+//          if (request.readyState == 4) { //operation complete
+            var response = "<br/>response: " + request.responseText + "<br/>state: " + request.readyState;
+            element.innerHTML += response;
+//          }
+          
+          
+        }
+        request.onerror = function () {
+          $("#loading").hide();
+          element.innerHTML = "Error occurred";
+        }
+        console.log(TAG + "starting GET");
+        request.send();
       }
 
       function doProgress() {
-          console.log('start progress');
-          $("#loading").show();
-          $("#page").addClass("disabled");
-          setTimeout(endProgress, 3000); // 1000 for 1 second 
+        console.log('start progress');
+        $("#loading").show();
+        $("#page").addClass("disabled");
+        setTimeout(endProgress, 3000); // 1000 for 1 second 
       }
       function endProgress() {
-          $("#page").removeClass("disabled");
-          $("#loading").hide();
-          console.log('end progress');
+        $("#page").removeClass("disabled");
+        $("#loading").hide();
+        console.log('end progress');
       }
 
 
       function gotoHome()
       {
-          window.location = "menu.html";
+        window.location = "menu.html";
       }
 
       function BackKeyDown()
       {
-          console.log(TAG + "Back Pressed");
-          gotoHome();
+        console.log(TAG + "Back Pressed");
+        gotoHome();
       }
     </script>
     <script type="text/javascript" src="cordova.js"></script>

@@ -9,6 +9,9 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    
+    <preference name="Orientation" value="portrait" />
+    
     <plugin name="cordova-plugin-camera" spec="2.4.1" />
     <plugin name="cordova-plugin-device" spec="1.1.6" />
     <plugin name="cordova-plugin-dialogs" spec="1.3.3" />
