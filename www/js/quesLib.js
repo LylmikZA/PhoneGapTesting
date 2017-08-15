@@ -117,7 +117,8 @@ var QuesLib = {
       toastr.error("End of questionnaire reached");
     } else {
       var q = jsonObj.questions[number - 1];
-      var title = 'Question ' + q.number + ' of ' + qTotal + '<br/><br/>' + q.question + '<br>';
+      var optional = q.optional ? ' (Optional)' : '';
+      var title = 'Question ' + q.number + ' of ' + qTotal + '<br/><br/>' + q.question + optional + '<br>';
       $('#qTitle').html(title).enhanceWithin();
       var htmlStr = '';
       switch (q.input.type) {
