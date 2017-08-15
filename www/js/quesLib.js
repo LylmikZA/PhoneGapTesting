@@ -117,12 +117,12 @@ var QuesLib = {
       toastr.error("End of questionnaire reached");
     } else {
       var q = jsonObj.questions[number - 1];
-      var title = 'Question ' + q.number + ' of ' + qTotal + '<br/><br/>' + q.question;
+      var title = 'Question ' + q.number + ' of ' + qTotal + '<br/><br/>' + q.question + '<br>';
       $('#qTitle').html(title).enhanceWithin();
       var htmlStr = '';
       switch (q.input.type) {
         case 'textline':
-          htmlStr = '<ul class="checkbox-grid"><li><input type="text" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/></li>';
+          htmlStr = '<input type="text" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/>';
           var msg = 'Characters: 0';
           if (q.input.min > 0 || q.input.max > 0) {
             msg += ' (';
@@ -135,11 +135,11 @@ var QuesLib = {
             msg += ')';
             charCounter = true;
           }
-          htmlStr += '<li style="margin-top: 10px"><span id="charCount">' + msg + '</span></li></ul>';
+          htmlStr += '<span id="charCount">' + msg + '</span>';
           break;
 
         case 'textblock':
-          htmlStr = '<ul class="checkbox-grid"><li><textarea rows="10" id="answer">' + myLibrary.decodeUtf8(answers[qNum - 1]) + '</textarea></li>';
+          htmlStr = '<textarea rows="10" id="answer">' + myLibrary.decodeUtf8(answers[qNum - 1]) + '</textarea>';
           var msg = 'Characters: 0';
           if (q.input.min > 0 || q.input.max > 0) {
             msg += ' (';
@@ -152,11 +152,11 @@ var QuesLib = {
             msg += ')';
             charCounter = true;
           }
-          htmlStr += '<li style="margin-top: 10px"><span id="charCount">' + msg + '</span></li></ul>';
+          htmlStr += '<span id="charCount">' + msg + '</span>';
           break;
 
         case 'numeric':
-          htmlStr = '<ul class="checkbox-grid"><li><input type="number" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/></li>';
+          htmlStr = '<input type="number" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/>';
           var msg = 'Characters: 0';
           if (q.input.min > 0 || q.input.max > 0) {
             msg += ' (';
@@ -169,13 +169,13 @@ var QuesLib = {
             msg += ')';
             charCounter = true;
           }
-          htmlStr += '<li style="margin-top: 10px"><span id="charCount">' + msg + '</span></li></ul>';
+          htmlStr += '<span id="charCount">' + msg + '</span>';
           break;
 
         case 'number':
           noDecimal = true; //can add nodecimal and nonegative as a json option?
         case 'decimal':
-          htmlStr = '<ul class="checkbox-grid"><li><input type="number" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/></li>';
+          htmlStr = '<input type="number" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/>';
           var msg = '';
           if (q.input.min > 0 || q.input.max > 0) {
             msg += '(';
@@ -187,11 +187,11 @@ var QuesLib = {
             }
             msg += ')';
           }
-          htmlStr += '<li style="margin-top: 10px"><span id="charCount">' + msg + '</span></li></ul>';
+          htmlStr += '<span id="charCount">' + msg + '</span>';
           break;
 
         case 'password':
-          htmlStr = '<ul class="checkbox-grid"><li><input type="password" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/></li>';
+          htmlStr = '<input type="password" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/>';
           var msg = 'Characters: 0';
           if (q.input.min > 0 || q.input.max > 0) {
             msg += ' (';
@@ -204,75 +204,71 @@ var QuesLib = {
             msg += ')';
             charCounter = true;
           }
-          htmlStr += '<li style="margin-top: 10px"><span id="charCount">' + msg + '</span></li></ul>';
+          htmlStr += '<span id="charCount">' + msg + '</span>';
           break;
 
         case 'email':
-          htmlStr = '<ul class="checkbox-grid"><li><input type="email" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/></li></ul>';
+          htmlStr = '<input type="email" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/>';
           break;
 
         case 'date':
-          htmlStr = '<ul class="checkbox-grid"><li><input type="date" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '" ';
+          htmlStr = '<input type="date" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '" ';
           if (q.input.min !== null) {
             htmlStr += 'min="' + q.input.min + '" ';
           }
           if (q.input.max !== null) {
             htmlStr += 'max="' + q.input.max + '" ';
           }
-          htmlStr += '/></li></ul>';
+          htmlStr += '/>';
           break;
 
         case 'time':
-          htmlStr = '<ul class="checkbox-grid"><li><input type="time" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/></li></ul>';
+          htmlStr = '<input type="time" id="answer" value="' + myLibrary.decodeUtf8(answers[qNum - 1]) + '"/>';
           break;
 
         case 'dropdown':
-          htmlStr = '<ul class="checkbox-grid"><li><select id="answer" class="select">';
+          htmlStr = '<select id="answer" class="select">';
           htmlStr += '<option value=0>Select an option</option>';
           var options = q.input.options.split('|');
           for (var j = 0; j < options.length; j++) {
             htmlStr += '<option value=' + (j + 1) + (j + 1 == myLibrary.decodeUtf8(answers[qNum - 1]) ? ' selected="selected"' : '') + '>' + options[j] + '</option>';
           }
-          htmlStr += '</select></li></ul>';
+          htmlStr += '</select>';
           break;
 
         case 'radio':
-          htmlStr = '<ul class="checkbox-grid">';
+          htmlStr = '';
           var options = q.input.options.split('|');
           for (var j = 0; j < options.length; j++) {
-            var optionHtml = '<li><input type="radio" name="radioSelect" id="answer' + (j + 1) + '" value="answer' + (j + 1) + '" ';
+            var optionHtml = '<input type="radio" name="radioSelect" id="answer' + (j + 1) + '" value="answer' + (j + 1) + '" ';
             if (j + 1 == myLibrary.decodeUtf8(answers[qNum - 1])) {
               optionHtml += ' checked="checked"';
               if (this.debug) console.log('checking option ' + j);
             }
-            optionHtml += '/><label for="answer' + (j + 1) + '">' + options[j] + '</label></li>';
-//                            var optionHtml = '<li><input type="radio"  name="radioSelect" id="answer' + j + '" value="' + options[j] + '" /></li>';
-//                            console.log(optionHtml);
+            optionHtml += '/><label for="answer' + (j + 1) + '">' + options[j] + '</label>';
             htmlStr += optionHtml;
           }
-          htmlStr += '</ul>';
           break;
 
         case 'check':
           var answerSplit = myLibrary.decodeUtf8(answers[qNum - 1]).split('|');
-          htmlStr = '<ul class="checkbox-grid">';
+          htmlStr = '';
           var options = q.input.options.split('|');
           for (var j = 0; j < options.length; j++) {
-            var optionHtml = '<li><input type="checkbox" name="checkSelect" id="answer' + (j + 1) + '" value="answer' + (j + 1) + '" ';
+            var optionHtml = '<input type="checkbox" name="checkSelect" id="answer' + (j + 1) + '" value="answer' + (j + 1) + '" ';
             for (var i = 0; i < answerSplit.length; i++) {
               if (j + 1 == answerSplit[i]) {
                 optionHtml += ' checked="checked"';
                 if (this.debug) console.log('checking option ' + j);
               }
             }
-            optionHtml += '/><label for="answer' + (j + 1) + '">' + options[j] + '</label></li>';
+            optionHtml += '/><label for="answer' + (j + 1) + '">' + options[j] + '</label>';
 //                            console.log(optionHtml);
             htmlStr += optionHtml;
           }
           if (q.input.max !== null) {
             checkLimit = q.input.max;
           }
-          htmlStr += '</ul>';
           break;
       }
 //                console.log(htmlStr);
