@@ -19,7 +19,7 @@
             </div>      
 
             <div class="main">
-                <div id='restResponse'>Press button to GET lynx test</div>
+                <div id='restResponse'>Press button to GET https://httpbin.org/basic-auth/user/passwd using basic auth</div>
             </div>
         </div>
 
@@ -38,39 +38,38 @@
                 console.log(TAG + "device ready");
                 document.addEventListener("backbutton", BackKeyDown, true);
 
-                // setting the header
-                window.cordovaHTTP.useBasicAuth(
-                        "user",
-                        "passwd",
-                        function (msg) {
-                            alert("OK, basic auth headers set: " + msg)
-                        },
-                        function (msg) {
-                            alert("ERROR: " + msg)
-                        }
-                );
-
             }
 
             function doGet() {
                 $("#loading").show();
                 var element = document.getElementById("restResponse");
                 element.innerHTML = "Performing GET...";
+                var request = new XMLHttpRequest();
+                request.open("GET", "https://httpbin.org/basic-auth/user/passwd", true);
+                request.setRequestHeader("Authorization", "Basic " + btoa("user:passwd"));
+
+
+
+//        request.open("GET", "http://www.lynxsoftware.co.za/rest/123/test", true);
+//          request.open("GET", "http://localhost:8080/Keynote/rest/123/login/test", true);
+                //Call a function when the state changes.
+                request.onreadystatechange = function () {
+                    $("#loading").hide();
+                    console.log(TAG + "received response: " + request.responseText);
+                    console.log(TAG + "received event " + request.readyState);
+                    if (request.readyState == 4) { //operation complete
+                        var response = "<br/>response: " + request.responseText + "<br/>state: " + request.readyState;
+                        element.innerHTML += response;
+                    }
+
+
+                }
+                request.onerror = function () {
+                    $("#loading").hide();
+                    element.innerHTML = "Error occurred";
+                }
                 console.log(TAG + "starting GET");
-                // invoking a Basic Auth protected endpoint
-                window.cordovaHTTP.get(
-                        "http://httpbin.org/basic-auth/user/passwd", // a nice public testservice
-                        {}, // optional params
-                        {}, // optional headers
-                        function (msg) {
-                            $("#loading").hide();
-                            alert("OK, basic auth resource responded: " + msg)
-                        },
-                        function (msg) {
-                            $("#loading").hide();
-                            alert("ERROR, call 'useBasicAuth' first or set the Auth header manually")
-                        }
-                );
+                request.send();
             }
 
             function doProgress() {
@@ -100,6 +99,5 @@
         <script type="text/javascript" src="cordova.js"></script>
         <script src="js/jquery-1.11.1.min.js"></script>
         <script src="js/jquery.mobile-1.4.5.min.js"></script>
-        <script src="js/cordovaHTTP.js"></script>
     </body>
 </html>

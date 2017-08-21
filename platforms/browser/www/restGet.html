@@ -19,7 +19,7 @@
       </div>      
 
       <div class="main">
-        <div id='restResponse'>Press button to GET lynx test</div>
+        <div id='restResponse'>Press button to GET https://httpbin.org/get</div>
       </div>
     </div>
 
@@ -54,10 +54,10 @@
           $("#loading").hide();
           console.log(TAG + "received response: " + request.responseText);
           console.log(TAG + "received event " + request.readyState);
-//          if (request.readyState == 4) { //operation complete
+          if (request.readyState == 4) { //operation complete
             var response = "<br/>response: " + request.responseText + "<br/>state: " + request.readyState;
             element.innerHTML += response;
-//          }
+          }
           
           
         }
