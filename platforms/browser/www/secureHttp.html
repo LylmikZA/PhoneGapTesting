@@ -14,7 +14,7 @@
                     <li>Rest GET</li>
                     <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
                     <li style="float:right"><a href="#" onclick="doGet()"><img src="img/icon/download.png"/></a></li>
-                    <li style="float:right"><a href="#" onclick="doProgress()"><img src="img/icon/timer.png"/></a></li>
+                    <!--<li style="float:right"><a href="#" onclick="doProgress()"><img src="img/icon/timer.png"/></a></li>-->
                 </ul>
             </div>      
 
@@ -57,7 +57,7 @@
                     $("#loading").hide();
                     console.log(TAG + "received response: " + request.responseText);
                     console.log(TAG + "received event " + request.readyState);
-                    if (request.readyState == 4) { //operation complete
+                    if (request.readyState == this.DONE) { //operation complete
                         var response = "<br/>response: " + request.responseText + "<br/>state: " + request.readyState;
                         element.innerHTML += response;
                     }
