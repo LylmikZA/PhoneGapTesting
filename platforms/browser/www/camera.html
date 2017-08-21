@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Capture Photo</title>
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1"/>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body>
+    <div class="mytoolbar" id="toolbar">
+      <ul>
+        <li>Camera</li>
+        <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
+      </ul>
+    </div>
+
+    <div class="main">
+
+      <button type="button" onclick="capturePhotoWithFile();">Capture Photo With Image File URI</button> <br>
+      <button type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
+      <img style="display:none;width:200px;height:200px;" id="smallImage" src="" />
+      <img style="display:none;" id="largeImage" src="" />
+
+      <canvas id="canvas"></canvas>
+
+
+
+    </div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var TAG = "camera: ";
+        var pictureSource;   // picture source
+        var destinationType; // sets the format of returned value 
+        // Wait for PhoneGap to connect with the device
+        //
+        document.addEventListener("deviceready", onDeviceReady, false);
+        // PhoneGap is ready to be used!
+        //
+        function onDeviceReady() {
+            console.log("device ready");
+            document.addEventListener("backbutton", BackKeyDown, true);
+
+            pictureSource = navigator.camera.PictureSourceType;
+            destinationType = navigator.camera.DestinationType;
+            //        alert(navigator.camera);
+        }
+
+        function BackKeyDown()
+        {
+            console.log(TAG + "Back Pressed");
+            gotoHome();
+        }
+
+        function gotoHome()
+        {
+            window.location = "menu.html";
+        }
+
+        // Called when a photo is successfully retrieved
+        //
+        function onPhotoFileSuccess(imageData) {
+            // Get image handle
+            console.log(JSON.stringify(imageData));
+
+            // Get image handle
+            //
+            var smallImage = document.getElementById('smallImage');
+            // Unhide image elements
+            //
+            smallImage.style.display = 'block';
+            // Show the captured photo
+            // The inline CSS rules are used to resize the image
+            //
+            smallImage.src = imageData;
+        }
+        // Called when a photo is successfully retrieved
+        //
+        function onPhotoURISuccess(imageURI) {
+            console.log("uri:" + imageURI);
+            window.resolveLocalFileSystemURI(imageURI, function (fileEntry) {
+                fileEntry.file(function (fileObj) {
+                    alert("Size = " + fileObj.size);
+                });
+            });
+            displayImage(imageURI);
+//          // Uncomment to view the image file URI 
+//          // console.log(imageURI);
+//          // Get image handle
+//          //
+//          var largeImage = document.getElementById('largeImage');
+//          // Unhide image elements
+//          //
+//          largeImage.style.display = 'block';
+//          // Show the captured photo
+//          // The inline CSS rules are used to resize the image
+//          //
+//          largeImage.src = imageURI;
+        }
+
+        function capturePhotoWithFile() {
+            navigator.camera.getPicture(onPhotoFileOk, onFail, {
+                quality: 50,
+                destinationType: Camera.DestinationType.DATA_URI,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                saveToPhotoAlbum: true,
+                correctOrientation: true
+            });
+        }
+
+        // A button will call this function
+        //
+        function getPhoto(source) {
+            // Retrieve image file location from specified source
+            navigator.camera.getPicture(onPhotoURISuccess, onFail, {
+                quality: 50,
+                destinationType: destinationType.FILE_URI,
+                sourceType: source});
+        }
+        // Called if something bad happens.
+        // 
+        function onFail(message) {
+            alert('Failed because: ' + message);
+        }
+
+        // Called when a photo is successfully retrieved
+        //
+        function onPhotoFileOk(imageUri) {
+            // Get image handle
+            var img = imageUri;//JSON.stringify(imageUri)
+
+            img = img.substring(img.lastIndexOf("/") + 1);
+
+            console.log(img);
+            resizeImage(500, imageUri, displayImage);
+//          uploadImage(imageUri);
+        }
+
+        function displayImage(imageUri) {
+            console.log("resize returns");
+//          // Get image handle
+//          //
+//          var smallImage = document.getElementById('smallImage');
+//          // Unhide image elements
+//          //
+//          smallImage.style.display = 'block';
+//          // Show the captured photo
+//          // The inline CSS rules are used to resize the image
+//          //
+//          smallImage.src = imageUri;
+//          console.log("Image displayed");
+//          uploadImage(imageUri);
+            uploadImage2();
+
+        }
+
+        function resizeImage(longSideMax, url, callback) {
+            console.log("Resizing to " + longSideMax);
+            var tempImg = new Image();
+            tempImg.src = url;
+            tempImg.onload = function () {
+                // Get image size and aspect ratio.
+                var targetWidth = tempImg.width;
+                var targetHeight = tempImg.height;
+                var aspect = tempImg.width / tempImg.height;
+
+                // Calculate shorter side length, keeping aspect ratio on image.
+                // If source image size is less than given longSideMax, then it need to be
+                // considered instead.
+                if (tempImg.width > tempImg.height) {
+                    longSideMax = Math.min(tempImg.width, longSideMax);
+                    targetWidth = longSideMax;
+                    targetHeight = longSideMax / aspect;
+                } else {
+                    longSideMax = Math.min(tempImg.height, longSideMax);
+                    targetHeight = longSideMax;
+                    targetWidth = longSideMax * aspect;
+                }
+                console.log("targetHeight=" + targetHeight);
+                console.log("targetWidth=" + targetWidth);
+
+                // Create canvas of required size.
+//              var canvas = document.createElement('canvas');
+                var canvas = document.getElementById('canvas');
+                canvas.width = targetWidth;
+                canvas.height = targetHeight;
+
+                var ctx = canvas.getContext("2d");
+                // Take image from top left corner to bottom right corner and draw the image
+                // on canvas to completely fill into.
+                ctx.drawImage(this, 0, 0, tempImg.width, tempImg.height, 0, 0, targetWidth, targetHeight);
+
+                callback(canvas.toDataURL("image/jpeg"));
+            };
+        }
+
+        function uploadImage(image) {
+
+            console.log("uploading: " + image);
+//          var imagePath = image + ".jpg";
+            var blob = dataURItoBlob(image);
+            console.log("blob: " + blob)
+
+            var form = new FormData();
+
+            form.append("upload", blob);
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "http://uploads.im/api",
+                "method": "POST",
+//              "headers": {
+//                  "cache-control": "no-cache",
+//                  "postman-token": "e729f1c0-6a6f-4c1d-a886-3232fbcee687"
+//              },
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            }
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+            });
+        }
+
+        function uploadImage2() {
+
+            console.log("uploading");
+            var c = document.getElementById("canvas");
+            var d = c.toDataURL("image/png");
+            console.log("d=" + d);
+
+            var blob = dataURItoBlob(d);
+            console.log("blob: " + blob)
+
+
+            var e = new File([blob], "image.png");
+            console.log("e=" + e);
+
+
+            var form = new FormData();
+
+            form.append("upload", e);
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "http://uploads.im/api",
+                "method": "POST",
+//              "headers": {
+//                  "cache-control": "no-cache",
+//                  "postman-token": "e729f1c0-6a6f-4c1d-a886-3232fbcee687"
+//              },
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            }
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+            });
+        }
+
+        function dataURItoBlob(dataURI) {
+            // convert base64/URLEncoded data component to raw binary data held in a string
+            var byteString;
+            if (dataURI.split(',')[0].indexOf('base64') >= 0)
+                byteString = atob(dataURI.split(',')[1]);
+            else
+                byteString = unescape(dataURI.split(',')[1]);
+
+            // separate out the mime component
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+            // write the bytes of the string to a typed array
+            var ia = new Uint8Array(byteString.length);
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+
+            return new Blob([ia], {type: 'image/jpeg'});
+        }
+    </script>
+
+  </body>
+</html>

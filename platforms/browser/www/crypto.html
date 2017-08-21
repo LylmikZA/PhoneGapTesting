@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>File Transfer Example</title>
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1"/>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body>
+    <div class="mytoolbar" id="toolbar">
+      <ul>
+        <li>Crypto</li>
+        <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
+      </ul>
+    </div>    
+
+    <div class="main">
+
+      <button type="button" onclick="cryptoDemo();">Go</button>
+      <br><br>
+      <label>encrypted</label>
+      <div id="demo1"></div>
+      <br>
+
+      <label>decrypted</label>
+      <div id="demo2"></div>
+
+      <br>
+      <label>Actual Message</label>
+      <div id="demo3"></div>
+
+      <br>
+      <label>Hashed</label>
+      <div id="demo4"></div>
+
+      <br>
+      <label>Debug</label>
+      <div id="demo5"></div>
+
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/aes.js"></script>
+    <script src="js/sha256.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var TAG = 'crypto: ';
+        // Wait for PhoneGap to load
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        // PhoneGap is ready
+        function onDeviceReady() {
+            console.log("device ready");
+            document.addEventListener("backbutton", BackKeyDown, true);
+
+            cryptoDemo();
+        }
+
+        function BackKeyDown()
+        {
+            console.log(TAG + "Back Pressed");
+            gotoHome();
+        }
+
+        function gotoHome()
+        {
+            window.location = "menu.html";
+        }
+
+        function cryptoDemo() {
+            var original = '{ "status_code": 200, "status_txt": "OK", "data": { "img_name": "9WBOk.jpg", "img_url": "http://sk.uploads.im/9WBOk.jpg", "img_view": "http://uploads.im/9WBOk.jpg", "img_width": "1080", "img_height": "1478", "img_attr": "width=\"1080\" height=\"1478\"", "img_size": "341.7 KB", "img_bytes": 349930, "thumb_url": "http://sk.uploads.im/t/9WBOk.jpg", "thumb_width": 360, "thumb_height": 493, "source": "base64 image string", "resized": "0", "delete_key": "34051e5bbfe3158a" } }';//Hello my name is Michael';
+            var passphrase = '1234567890';
+            var encrypted = CryptoJS.AES.encrypt(original, passphrase);
+            var decrypted = CryptoJS.AES.decrypt(encrypted, passphrase);
+            var decString = decrypted.toString(CryptoJS.enc.Utf8);
+            var hashed = CryptoJS.SHA256(original);
+
+
+            document.getElementById("demo1").innerHTML = encrypted.toString() + '<br/>len=' + encrypted.toString().length;
+            document.getElementById("demo2").innerHTML = decrypted.toString() + '<br/>len=' + decrypted.toString().length;
+            document.getElementById("demo3").innerHTML = decString + '<br/>len=' + decString.length;
+            document.getElementById("demo4").innerHTML = hashed.toString() + '<br/>len=' + hashed.toString().length;
+
+            var debug = document.getElementById("demo5");
+            debug.innerHTML = '';
+            for (var i = 0; i < 100; i++) {
+                var enc = CryptoJS.AES.encrypt(original, passphrase);
+                debug.innerHTML += enc.toString() + '<br/>';
+            }
+        }
+
+
+    </script>
+
+  </body>
+</html>
