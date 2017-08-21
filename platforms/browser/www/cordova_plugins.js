@@ -262,6 +262,30 @@ module.exports = [
         "clobbers": [
             "window.FileTransfer"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-fcm/www/FCMPlugin.js",
+        "id": "cordova-plugin-fcm.FCMPlugin",
+        "pluginId": "cordova-plugin-fcm",
+        "clobbers": [
+            "FCMPlugin"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-fcm-with-dependecy-updated/www/FCMPlugin.js",
+        "id": "cordova-plugin-fcm-with-dependecy-updated.FCMPlugin",
+        "pluginId": "cordova-plugin-fcm-with-dependecy-updated",
+        "clobbers": [
+            "FCMPlugin"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-firebase-extended-notification/www/FirebaseExtendedNotification.js",
+        "id": "cordova-plugin-firebase-extended-notification.FirebaseExtendedNotification",
+        "pluginId": "cordova-plugin-firebase-extended-notification",
+        "clobbers": [
+            "FirebaseExtendedNotification"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -275,7 +299,10 @@ module.exports.metadata =
     "cordova-plugin-file": "4.3.3",
     "cordova-plugin-dialogs": "1.3.3",
     "cordova-plugin-file-transfer": "1.6.3",
-    "cordova-plugin-toast": "1.0.1"
+    "cordova-plugin-toast": "1.0.1",
+    "cordova-plugin-fcm": "2.1.2",
+    "cordova-plugin-fcm-with-dependecy-updated": "2.2.1",
+    "cordova-plugin-firebase-extended-notification": "1.8.0"
 }
 // BOTTOM OF METADATA
 });
