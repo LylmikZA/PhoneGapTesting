@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Page 1</title>
+        <link rel="stylesheet" href="css/mystylesheet.css" />
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+    </head>
+    <body>
+        <div class="mytoolbar" id="toolbar">
+            <ul>
+                <li>Messaging</li>
+                <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
+            </ul>
+        </div>    
+        <div class="main">
+            <div id='pushinfo'>Registering for a Firebase Id...<br/></div>
+        </div>
+
+        <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+        <script type="text/javascript">
+                    var TAG = "messaging: ";
+                    var messaging;
+                    document.addEventListener("deviceready", onDeviceReady, false);
+                    function onDeviceReady() {
+                        console.log(TAG + "device ready")
+                        document.addEventListener("backbutton", BackKeyDown, true);
+                        var push = PushNotification.init({"android": {"senderID": "79759081709"}});
+                        push.on('registration', function (data) {
+                            console.log(TAG + 'id: ' + data.registrationId);
+                            var element = document.getElementById('pushinfo');
+                            element.innerHTML += 'Firebase ID: ' + data.registrationId + '<br/>';
+                        });
+                        push.on('notification', function (data) {
+                            console.log(TAG + 'title: ' + data.title + ' msg: ' + data.message);
+                            var element = document.getElementById('pushinfo');
+                            element.innerHTML += 'Push Message<br/>title: ' + data.title + '<br/>msg: ' + data.message + '<br/>';
+                        });
+                        push.on('error', function (e) {
+                            console.log(TAG + 'error: ' + e);
+                            element.innerHTML += 'Error: ' + e + '<br/>';
+                        });
+                    }
+
+
+                    function gotoHome()
+                    {
+                        window.location = "menu.html";
+                    }
+
+                    function BackKeyDown()
+                    {
+                        console.log(TAG + "Back Pressed");
+                        gotoHome();
+                    }
+        </script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    </body>
+</html>
