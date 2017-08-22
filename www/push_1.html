@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Page 1</title>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body>
+    <div class="mytoolbar" id="toolbar">
+      <ul>
+        <li>Push Msg</li>
+        <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
+      </ul>
+    </div>    
+    <div class="main">
+      Registration ID<br/>
+      <div id='regId'>Getting registration Id...</div><br/><br/>
+      Push Message<br/>
+      <div id='msg'>None</div><br/><br/>
+      Error<br/>
+      <div id='err'>None</div><br/>
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+    <script type="text/javascript">
+          var TAG = "push1: ";
+          document.addEventListener("deviceready", onDeviceReady, false);
+
+          function onDeviceReady() {
+            console.log(TAG + "device ready")
+            document.addEventListener("backbutton", BackKeyDown, true);
+
+            var push = PushNotification.init({"android": {"senderID": "79759081709"},
+              "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}});
+
+            push.on('registration', function (data) {
+              console.log(TAG + 'regId=' + data.registrationId);
+              var element = document.getElementById('regId');
+              element.innerHTML = data.registrationId;
+            });
+
+            push.on('notification', function (data) {
+              console.log(TAG + 'message=' + data.message);
+              console.log(TAG + 'title=' + data.title);
+              console.log(TAG + 'count=' + data.count);
+              console.log(TAG + 'sound=' + data.sound);
+              console.log(TAG + 'image=' + data.image);
+              console.log(TAG + 'additionalData=' + data.additionalData);
+              var element = document.getElementById('msg');
+              element.innerHTML = 'message=' + data.message
+                      + '<br/>title=' + data.title
+                      + '<br/>count=' + data.count
+                      + '<br/>sound=' + data.sound
+                      + '<br/>image=' + data.image
+                      + '<br/>additionalData=' + data.additionalData;
+            });
+
+            push.on('error', function (e) {
+              console.log(TAG + 'error:' + e.message);
+              var element = document.getElementById('err');
+              element.innerHTML = e.message;
+
+            });
+
+          }
+
+          function gotoHome()
+          {
+            window.location = "menu.html";
+          }
+
+          function BackKeyDown()
+          {
+            console.log(TAG + "Back Pressed");
+            gotoHome();
+          }
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+  </body>
+</html>

@@ -30,8 +30,8 @@
         <li><a href="#" onclick="gotoPage('classLists')">Classes and Lists</a></li>
         <li><a href="#" onclick="gotoPage('questionnaire')">Questionnaire</a></li>
         <li><a href="#" onclick="gotoPage('sign')">Signature</a></li>
-        <li><a href="#" onclick="gotoPage('push')">Push Msg</a></li>
-        
+        <li><a href="#" onclick="gotoPage('push_1')">Push Msg</a></li>
+
       </ul>
     </div>
 
@@ -41,22 +41,22 @@
 
       function onDeviceReady()
       {
-          document.addEventListener("backbutton", BackKeyDown, true);
+        document.addEventListener("backbutton", BackKeyDown, true);
       }
 
       function gotoPage(page)
       {
-          window.location = page + ".html";
+        window.location = page + ".html";
       }
 
       function BackKeyDown()
       {
-          console.log(TAG + "Back Pressed");
-          logout();
+        console.log(TAG + "Back Pressed");
+        logout();
       }
       function logout()
       {
-          window.location = "index.html";
+        window.location = "index.html";
       }
 
     </script>
