@@ -17,32 +17,12 @@
     <div class="main">
       <div class="app">
         Permissions
-        <table width="100%">
-          <tr>
-            <td width="50%">
-              <button onclick="hasReadPermission()">has read permission</button>
-            </td>
-            <td width="50%">
-              <button onclick="requestReadPermission()">req read permission</button>
-            </td>
-          </tr>
-          <tr>
-            <td width="50%">
-              <button onclick="hasWritePermission()">has write permission</button>
-            </td>
-            <td width="50%">
-              <button onclick="requestWritePermission()">req write permission</button>
-            </td>
-          </tr>
-          <tr>
-            <td width="50%">
-              <button onclick="hasReadWritePermission()">has readwrite permission</button>
-            </td>
-            <td width="50%">
-              <button onclick="requestReadWritePermission()">req readwrite permission</button>
-            </td>
-          </tr>
-        </table>
+        <button onclick="hasReadPermission()">has read permission</button>
+        <!--<button onclick="requestReadPermission()">req read permission</button>-->
+        <button onclick="hasWritePermission()">has write permission</button>
+        <!--<button onclick="requestWritePermission()">req write permission</button>-->
+        <button onclick="hasReadWritePermission()">has readwrite permission</button>
+        <!--<button onclick="requestReadWritePermission()">req readwrite permission</button>-->
         <br/>
         Calendar Events
         <button onclick="openCalendar()">open calendar</button>
@@ -73,7 +53,7 @@
         url: 'https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin',
         calendarName: calendarName, // iOS specific
         calendarId: 1, // Android specific
-        firstReminderMinutes: 25, // default is 60, pass in null for no reminder (alarm)
+        firstReminderMinutes: 30, // default is 60, pass in null for no reminder (alarm)
         secondReminderMinutes: 15
       };
       document.addEventListener("deviceready", onDeviceReady, false);
