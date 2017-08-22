@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Page 1</title>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body>
+    <div class="mytoolbar" id="toolbar">
+      <ul>
+        <li>Calendar</li>
+        <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
+      </ul>
+    </div>    
+    <div class="main">
+      <button type="button" onclick="setCalendar()">Set Calendar</button>
+      <div id='calInfo'></div>
+    </div>
+
+    <script type="text/javascript">
+      var TAG = "calendar: ";
+      var debug;
+      document.addEventListener("deviceready", onDeviceReady, false);
+
+      var success = function (message) {
+        alert("Success: " + JSON.stringify(message));
+      };
+      var error = function (message) {
+        alert("Error: " + message);
+      };
+
+      function onDeviceReady() {
+        console.log(TAG + "device ready")
+        document.addEventListener("backbutton", BackKeyDown, true);
+
+      }
+
+      function setCalendar() {
+        console.log(TAG + 'setting calendar2');
+//        var now = new Date().getTime();
+//        var startDate = new Date(now + 30 * 60 * 1000); //30 min from now
+//        console.log(TAG + 'start: ' + startDate);
+//        var endDate = new Date(now + 60 * 60 * 1000); //60 min from now
+//        console.log(TAG + 'end: ' + endDate);
+//
+//        var calOptions = window.plugins.calendar.getCalendarOptions(); // grab the defaults
+//        console.log(TAG + 'got calOptions');
+//        calOptions.firstReminderMinutes = 25; // default is 60, pass in null for no reminder (alarm)
+//        calOptions.secondReminderMinutes = 15;
+//
+//        var element = document.getElementById('calInfo');
+//        element.innerHTML = 'Creating calendar event:<br/>'
+//                + 'Name: Test Event<br/>' +
+//                +'Location: Event Location<br/>' +
+//                +'Notes: Notes<br/>' +
+//                +'Start: ' + startDate + '<br/>' +
+//                +'End: ' + endDate + '<br/>' +
+//                +'Reminder 1: 25 min<br/>' +
+//                +'Reminder 2: 15 min<br/>';
+//
+//        window.plugins.calendar.createEventWithOptions('Test Event', 'Event Location', 'Notes', startDate, endDate, calOptions, success, error);
+        var title = 'My Event Title';
+        var location = 'My Event Location';
+        var notes = 'My interesting Event notes.';
+        var startDate = new Date();
+        var endDate = new Date();
+        var calendarName = "MyCal";
+
+        // clean up the dates a bit
+        startDate.setMinutes(0);
+        endDate.setMinutes(0);
+        startDate.setSeconds(0);
+        endDate.setSeconds(0);
+
+        // add a few hours to the dates, JS will automatically update the date (+1 day) if necessary
+        startDate.setHours(startDate.getHours() + 2);
+        endDate.setHours(endDate.getHours() + 3);
+        window.plugins.calendar.createEvent(title, location, notes, startDate, endDate, success, error);
+
+      }
+
+
+      function gotoHome()
+      {
+        window.location = "menu.html";
+      }
+
+      function BackKeyDown()
+      {
+        console.log(TAG + "Back Pressed");
+        gotoHome();
+      }
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+  </body>
+</html>

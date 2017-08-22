@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Page 1</title>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body>
+    <div class="mytoolbar" id="toolbar">
+      <ul>
+        <li>Calendar</li>
+        <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
+      </ul>
+    </div>    
+    <div class="main">
+      <div class="app">
+        <button onclick="hasReadPermission()">has read permission</button><br/><br/>
+        <button onclick="requestReadPermission()">req read permission</button><br/><br/>
+        <button onclick="hasWritePermission()">has write permission</button><br/><br/>
+        <button onclick="requestWritePermission()">req write permission</button><br/><br/>
+        <button onclick="hasReadWritePermission()">has readwrite permission</button><br/><br/>
+        <button onclick="requestReadWritePermission()">req readwrite permission</button><br/><br/>
+        <button onclick="openCalendar()">open calendar</button><br/><br/>
+        <button onclick="listCalendars()">list calendars</button><br/><br/>
+        <button onclick="createCalendar()">create calendar</button><br/><br/>
+        <button onclick="deleteCalendar()">delete calendar</button><br/><br/>
+        <button onclick="createCalendarEvent()">create event</button><br/><br/>
+        <button onclick="createCalendarEventWithOptions()">create event with options</button><br/><br/>
+        <button onclick="createCalendarEventInteractively()">create event interactively</button><br/><br/>
+        <button onclick="createCalendarEventInteractivelyWithOptions()">create event interactively with options</button><br/><br/>
+        <button onclick="deleteEvent()">delete event</button><br/><br/>
+        <button onclick="findEventWithFilter()">find event with filter</button><br/><br/>
+        <button onclick="findEventNoFilter()">find event no filter</button><br/><br/>
+        <button onclick="listEventsInRange()">list events in range</button>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var TAG = "calendar: ";
+      var title = 'My Event Title';
+      var loc = 'My Event Location';
+      var notes = 'My interesting Event notes.';
+      var startDate = new Date();
+      var endDate = new Date();
+      var calendarName = 'MyCal';
+      var options = {
+        url: 'https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin',
+        calendarName: calendarName, // iOS specific
+        calendarId: 1 // Android specific
+      };
+      document.addEventListener("deviceready", onDeviceReady, false);
+
+      function onDeviceReady() {
+        console.log(TAG + "device ready")
+        document.addEventListener("backbutton", BackKeyDown, true);
+
+
+// clean up the dates a bit
+        startDate.setMinutes(0);
+        endDate.setMinutes(0);
+        startDate.setSeconds(0);
+        endDate.setSeconds(0);
+// add a few hours to the dates, JS will automatically update the date (+1 day) if necessary
+        startDate.setHours(startDate.getHours() + 2);
+        endDate.setHours(endDate.getHours() + 3);
+        console.log(startDate);
+        console.log(endDate);
+      }
+
+      function gotoHome()
+      {
+        window.location = "menu.html";
+      }
+
+      function BackKeyDown()
+      {
+        console.log(TAG + "Back Pressed");
+        gotoHome();
+      }
+
+      function onSuccess(msg) {
+        alert('Calendar success: ' + JSON.stringify(msg));
+      }
+
+      function onError(msg) {
+        alert('Calendar error: ' + JSON.stringify(msg));
+      }
+
+      function hasReadPermission() {
+        window.plugins.calendar.hasReadPermission(onSuccess);
+      }
+
+      function requestReadPermission() {
+        window.plugins.calendar.requestReadPermission(onSuccess);
+      }
+
+      function hasWritePermission() {
+        window.plugins.calendar.hasWritePermission(onSuccess);
+      }
+
+      function requestWritePermission() {
+        window.plugins.calendar.requestWritePermission(onSuccess);
+      }
+
+      function hasReadWritePermission() {
+        window.plugins.calendar.hasReadWritePermission(onSuccess);
+      }
+
+      function requestReadWritePermission() {
+        window.plugins.calendar.requestReadWritePermission(onSuccess);
+      }
+
+      function openCalendar() {
+        // today + 3 days
+        var d = new Date(new Date().getTime() + 3 * 24 * 60 * 60 * 1000);
+        window.plugins.calendar.openCalendar(d, onSuccess, onError);
+      }
+
+      function listCalendars() {
+        window.plugins.calendar.listCalendars(onSuccess, onError);
+      }
+
+      function createCalendar() {
+        var options = window.plugins.calendar.getCreateCalendarOptions();
+        options.calendarName = "MyCordovaCalendar";
+        options.calendarColor = "#FF0000"; // red
+        window.plugins.calendar.createCalendar(options, onSuccess, onError);
+      }
+
+      function deleteCalendar() {
+        window.plugins.calendar.deleteCalendar("MyCordovaCalendar", onSuccess, onError);
+      }
+
+      function deleteEvent() {
+        window.plugins.calendar.deleteEvent(title, loc, notes, startDate, endDate, onSuccess, onError);
+      }
+
+      function createCalendarEvent() {
+        window.plugins.calendar.createEvent(title, loc, notes, startDate, endDate, onSuccess, onError);
+      }
+
+      function createCalendarEventInteractively() {
+        window.plugins.calendar.createEventInteractively(title, loc, notes, startDate, endDate, onSuccess, onError);
+      }
+
+      function createCalendarEventInteractivelyWithOptions() {
+        window.plugins.calendar.createEventInteractivelyWithOptions(title, loc, notes, startDate, endDate, options, onSuccess, onError);
+      }
+
+      function createCalendarEventWithOptions() {
+        window.plugins.calendar.createEventWithOptions(title, loc, notes, startDate, endDate, options, onSuccess, onError);
+      }
+
+      function findEventWithFilter() {
+        window.plugins.calendar.findEvent(title, loc, notes, startDate, endDate, onSuccess, onError);
+      }
+
+      function findEventNoFilter() {
+        window.plugins.calendar.findEvent(null, null, null, startDate, endDate, onSuccess, onError);
+      }
+
+      function listEventsInRange() {
+        startDate.setHours(startDate.getHours() - 12);
+        window.plugins.calendar.listEventsInRange(startDate, endDate, onSuccess, onError);
+      }
+
+      window.onerror = function (msg, file, line) {
+        alert(msg + '; ' + file + '; ' + line);
+      };
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+  </body>
+</html>

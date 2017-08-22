@@ -22,10 +22,15 @@
   <plugin name="phonegap-plugin-push" source="npm" spec="~1.8.0">
     <variable name="SENDER_ID" value="79759081709" />
   </plugin>
+  <plugin name="cordova-plugin-calendar" />
 
   <platform name="android">
     <preference name="android-minSdkVersion" value="15"/>
   </platform>
+  
+  <feature name="Calendar">
+    <param name="android-package" value="nl.xservices.plugins.Calendar" />
+  </feature>
 
   <allow-navigation href="*" />
 </widget>
