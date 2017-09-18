@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Blank App</title>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body>
+    <div class="mytoolbar" id="toolbar">
+      <ul>
+        <li>Database</li>
+        <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
+      </ul>
+    </div>   
+    <div class="main">
+      <input type="button" value="Open Database" onClick="getDatabase(true)">
+      <input type="button" value="Update" onClick="updateDatabase()">
+      <input type="button" value="Populate" onClick="populateDb()">
+      <input type="button" value="Read" onClick="readDb()">
+      <br>
+      <div id="debug"></div>
+    </div>
+
+    <script type="text/javascript">
+      // global variables
+      var TAG = "databases: ";
+      var database = null;
+
+      document.addEventListener('deviceready', onDeviceReady, false);
+
+      function errorHandler(transaction, error) {
+        alert('Error: ' + error.message + ' code: ' + error.code);
+      }
+      function successCallBack() {
+        console.log('success');
+      }
+
+      function getDatabase(print) {
+//        if (database === null) {
+//          console.log('opening new db');
+        database = openDatabase('testDB', "", 'testDB', 10000);
+        if (print) {
+          console.log('getDatabase - version = ' + database.version);
+        }
+//        } else {
+//          console.log('db already open');
+//        }
+        return database;
+      }
+
+      function updateDatabase()
+      {
+        console.log('db version = ' + getDatabase(false).version);
+        if (getDatabase(false).version === "") {
+          getDatabase(false).changeVersion("", "1.0",
+                  function (trans) { //do initial setup
+//                this.createTables(trans);
+                    trans.executeSql('CREATE TABLE IF NOT EXISTS Test(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);');
+                  },
+                  function (e) { //used for error
+                    console.log('error in changeVersion to 1');
+                    console.log(JSON.stringify(e));
+                  },
+                  function () { //used for success
+                    console.log('changeVersion to 1 ran once');
+                    console.log(database.version);
+                  }
+          );
+        } else if (getDatabase(false).version === "1.0") {
+          console.log('try change 1.0 to 2.0');
+          getDatabase(false).changeVersion("1.0", "2.0",
+                  function (trans) {
+                    console.log('in change function');
+//                    trans.executeSql('ALTER TABLE Test ADD surname TEXT NOT NULL;');
+                    database.transaction(function (transaction) {
+                      transaction.executeSql('SELECT * FROM Test;', [], function (transaction, result) {
+                        if (result != null && result.rows != null) {
+                          console.log('rows = ' + result.rows.length);
+                          for (var i = 0; i < result.rows.length; i++) {
+                            var row = result.rows.item(i);
+                            console.log('id=' + row.id + ' name=' + row.name);
+                          }
+                        }
+                      }, errorHandler);
+                    }, errorHandler, successCallBack);
+                  },
+                  function (e) { //used for error
+                    console.log('error in changeVersion to 2.0');
+                    console.log(JSON.stringify(e));
+                  },
+                  function () { //used for success
+                    console.log('changeVersion to 2.0 ran once');
+                    console.log(database.version);
+                  }
+          );
+        } else if (getDatabase(false).version === "2.0") {
+          console.log('try change 2.0 to 3.0');
+          getDatabase(false).changeVersion("2.0", "3.0",
+                  function (trans) {
+                    console.log('in change function');
+                    trans.executeSql("ALTER TABLE Test ADD surname TEXT NOT NULL DEFAULT '';");
+//                    database.transaction(function (transaction) {
+//                      transaction.executeSql('ALTER TABLE Test ADD surname TEXT NOT NULL;', [], function () {
+//                        console.log('updated');
+//                      }, errorHandler);
+//                    }, errorHandler, successCallBack);
+                  },
+                  function (e) { //used for error
+                    console.log('error in changeVersion to 3.0');
+                    console.log(JSON.stringify(e));
+                  },
+                  function () { //used for success
+                    console.log('changeVersion to 3.0 ran once');
+                    console.log(database.version);
+                  }
+          );
+        } else if (getDatabase(false).version === "3.0") {
+          console.log('try change 3.0 to 4.0');
+          getDatabase(false).changeVersion("3.0", "4.0",
+                  function (trans) {
+                    console.log('in change function');
+                    trans.executeSql("ALTER TABLE Test ADD surname TEXT NOT NULL DEFAULT '';");
+//                    database.transaction(function (transaction) {
+//                      transaction.executeSql('ALTER TABLE Test ADD surname TEXT NOT NULL;', [], function () {
+//                        console.log('updated');
+//                      }, errorHandler);
+//                    }, errorHandler, successCallBack);
+                  },
+                  function (e) { //used for error
+                    console.log('error in changeVersion to 4.0');
+                    console.log(JSON.stringify(e));
+                  },
+                  function () { //used for success
+                    console.log('changeVersion to 4.0 ran once');
+                    console.log(database.version);
+                  }
+          );
+        } else if (getDatabase(false).version === "4.0") {
+          console.log('try change 4.0 to 5.0');
+          getDatabase(false).changeVersion("4.0", "5.0",
+                  function (trans) {
+                    console.log('in change function');
+                    trans.executeSql("ALTER TABLE Test ADD address TEXT NULL;");
+//                    database.transaction(function (transaction) {
+//                      transaction.executeSql('ALTER TABLE Test ADD surname TEXT NOT NULL;', [], function () {
+//                        console.log('updated');
+//                      }, errorHandler);
+//                    }, errorHandler, successCallBack);
+                  },
+                  function (e) { //used for error
+                    console.log('error in changeVersion to 5.0');
+                    console.log(JSON.stringify(e));
+                  },
+                  function () { //used for success
+                    console.log('changeVersion to 5.0 ran once');
+                    console.log(database.version);
+                  }
+          );
+        } else {
+          console.log('up to date');
+        }
+      }
+
+      function populateDb() {
+        console.log('populating');
+
+        var dbver = getDatabase(false).version;
+        if (dbver == "1.0" || dbver == "2.0" || dbver == "3.0") {
+          console.log('version 1,2,3 populate');
+          database.transaction(function (transaction) {
+            transaction.executeSql("INSERT INTO Test(name) VALUES (?)", ['Test Name'], null, errorHandler);
+          }, errorHandler, successCallBack);
+
+        } else if (dbver == "4.0") {
+          console.log('version 4 populate');
+          database.transaction(function (transaction) {
+            transaction.executeSql("INSERT INTO Test(name,surname) VALUES (?,?)", ['Test Name', 'Test Surname'], null, errorHandler);
+          }, errorHandler, successCallBack);
+        } else if (dbver == "5.0") {
+          console.log('version 5 populate');
+          database.transaction(function (transaction) {
+            transaction.executeSql("INSERT INTO Test(name,surname,address) VALUES (?,?,?)", ['Test Name', 'Test Surname', 'Test Address'], null, errorHandler);
+          }, errorHandler, successCallBack);
+        }
+      }
+
+      function readDb() {
+        console.log('reaading');
+
+        var dbver = getDatabase(false).version;
+        if (dbver == "1.0" || dbver == "2.0" || dbver == "3.0") {
+          console.log('version 1,2,3 read');
+          database.transaction(function (transaction) {
+            transaction.executeSql('SELECT * FROM Test;', [], function (transaction, result) {
+              if (result != null && result.rows != null) {
+                console.log('rows = ' + result.rows.length);
+                for (var i = 0; i < result.rows.length; i++) {
+                  var row = result.rows.item(i);
+                  console.log('id=' + row.id + ' name=' + row.name);
+                }
+              }
+            }, errorHandler);
+          }, errorHandler, successCallBack);
+        } else if (dbver == "4.0") {
+          console.log('version 4 read');
+          database.transaction(function (transaction) {
+            transaction.executeSql('SELECT * FROM Test;', [], function (transaction, result) {
+              if (result != null && result.rows != null) {
+                console.log('rows = ' + result.rows.length);
+                for (var i = 0; i < result.rows.length; i++) {
+                  var row = result.rows.item(i);
+                  console.log('id=' + row.id + ' name=' + row.name + ' surname=' + row.surname);
+                }
+              }
+            }, errorHandler);
+          }, errorHandler, successCallBack);
+        } else if (dbver == "5.0") {
+          console.log('version 5 read');
+          database.transaction(function (transaction) {
+            transaction.executeSql('SELECT * FROM Test;', [], function (transaction, result) {
+              if (result != null && result.rows != null) {
+                console.log('rows = ' + result.rows.length);
+                for (var i = 0; i < result.rows.length; i++) {
+                  var row = result.rows.item(i);
+                  console.log('id=' + row.id + ' name=' + row.name + ' surname=' + row.surname + ' address=' + row.address);
+                }
+              }
+            }, errorHandler);
+          }, errorHandler, successCallBack);
+        }
+      }
+
+
+      function onDeviceReady() {
+        document.addEventListener("backbutton", BackKeyDown, true);
+      }
+
+      function gotoHome()
+      {
+        window.location = "menu.html";
+      }
+
+      function BackKeyDown()
+      {
+        console.log(TAG + "Back Pressed");
+        gotoHome();
+      }
+
+    </script>
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+
+  </body>
+</html>

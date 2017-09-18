@@ -9,7 +9,9 @@
   </author>
   <content src="index.html" />
   <access origin="*"  />
-    
+  <access origin="tel:*" launch-external="yes" /> 
+  <access origin="geo:*" launch-external="yes" />
+      
   <preference name="Orientation" value="portrait" />
     
   <plugin name="cordova-plugin-camera" spec="2.4.1" />
