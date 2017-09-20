@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Page 1</title>
+    <link rel="stylesheet" href="css/mystylesheet.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+  </head>
+  <body>
+    <div id="page">
+      <div class="mytoolbar" id="toolbar">
+        <ul>
+          <li>Pause</li>
+          <li style="float:right"><a href="#" onclick="gotoHome()"><img src="img/icon/home.png"/></a></li>
+        </ul>
+      </div>      
+
+      <div class="main">
+        <div id='debug'></div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var TAG = "pause: ";
+      document.addEventListener("deviceready", onDeviceReady, false);
+
+      function onPause() {
+        var element = document.getElementById("debug");
+        element.innerHTML += new Date() + ": Paused<br/>";
+      }
+
+
+      function onDeviceReady() {
+        console.log(TAG + "device ready");
+        document.addEventListener("backbutton", BackKeyDown, true);
+        document.addEventListener("pause", onPause, true);
+//        alert("device ready");
+        // doGet();			
+      }
+
+      function doGet() {
+        $("#loading").show();
+        var element = document.getElementById("restResponse");
+        element.innerHTML = "Performing GET...";
+        var request = new XMLHttpRequest();
+        request.open("GET", "https://httpbin.org/get", true);
+//        request.open("GET", "http://www.lynxsoftware.co.za/rest/123/test", true);
+//          request.open("GET", "http://localhost:8080/Keynote/rest/123/login/test", true);
+        //Call a function when the state changes.
+        request.onreadystatechange = function () {
+          $("#loading").hide();
+          console.log(TAG + "received response: " + request.responseText);
+          console.log(TAG + "received event " + request.readyState);
+          if (request.readyState == 4) { //operation complete
+            var response = "<br/>response: " + request.responseText + "<br/>state: " + request.readyState;
+            element.innerHTML += response;
+          }
+
+
+        }
+        request.onerror = function () {
+          $("#loading").hide();
+          element.innerHTML = "Error occurred";
+        }
+        console.log(TAG + "starting GET");
+        request.send();
+      }
+
+      function doProgress() {
+        console.log('start progress');
+        $("#loading").show();
+        $("#page").addClass("disabled");
+        setTimeout(endProgress, 3000); // 1000 for 1 second 
+      }
+      function endProgress() {
+        $("#page").removeClass("disabled");
+        $("#loading").hide();
+        console.log('end progress');
+      }
+
+
+      function gotoHome()
+      {
+        window.location = "menu.html";
+      }
+
+      function BackKeyDown()
+      {
+        console.log(TAG + "Back Pressed");
+        gotoHome();
+      }
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+  </body>
+</html>

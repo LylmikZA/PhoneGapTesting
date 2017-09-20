@@ -28,6 +28,8 @@
       <canvas id="canvas"></canvas>
 
       <div id="links" >Links will go here</div>
+
+      <div id='debug'></div>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script src="js/myLibrary.js"></script>
@@ -38,176 +40,195 @@
         var pictureSource;   // picture source
         var destinationType; // sets the format of returned value 
         var selectedImage;
+        var exitOnPause = true;
 
         // Wait for PhoneGap to load
         document.addEventListener("deviceready", onDeviceReady, false);
 
         // PhoneGap is ready
         function onDeviceReady() {
-            console.log("device ready");
-            document.addEventListener("backbutton", BackKeyDown, true);
-            pictureSource = navigator.camera.PictureSourceType;
-            destinationType = navigator.camera.DestinationType;
+          console.log("device ready");
+          document.addEventListener("backbutton", BackKeyDown, true);
+          pictureSource = navigator.camera.PictureSourceType;
+          destinationType = navigator.camera.DestinationType;
+          document.addEventListener("pause", onPause, true);
+          document.addEventListener("resume", onResume, true);
+        }
+
+        function onPause() {
+          var element = document.getElementById("debug");
+          element.innerHTML += new Date() + ": Paused<br/>";
+          if (exitOnPause) {
+            navigator.app.exitApp();
+          }
+        }
+
+        function onResume() {
+          var element = document.getElementById("debug");
+          element.innerHTML += new Date() + ": Resumed<br/>";
+          exitOnPause = true;
         }
 
         function gotoHome()
         {
-            window.location = "menu.html";
+          window.location = "menu.html";
         }
 
         function BackKeyDown()
         {
-            console.log(TAG + "Back Pressed");
-            gotoHome();
+          console.log(TAG + "Back Pressed");
+          gotoHome();
         }
 
         function takePhoto() {
-            navigator.camera.getPicture(onPhotoURISuccess, onFail, {
-                quality: 50,
-                targetWidth: 320,
-                targetHeight: 320,
-                destinationType: Camera.DestinationType.FILE_URI,
-                sourceType: Camera.PictureSourceType.CAMERA,
-                saveToPhotoAlbum: true,
-                correctOrientation: true
-            });
+          exitOnPause = false;
+          navigator.camera.getPicture(onPhotoURISuccess, onFail, {
+            quality: 50,
+            targetWidth: 320,
+            targetHeight: 320,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.CAMERA,
+            saveToPhotoAlbum: true,
+            correctOrientation: true
+          });
         }
 
         // A button will call this function
         //
         function getPhoto(source) {
-            // Retrieve image file location from specified source
-            navigator.camera.getPicture(onPhotoURISuccess, onFail, {
-                quality: 50,
-                targetWidth: 320,
-                targetHeight: 320,
-                destinationType: destinationType.FILE_URI,
-                sourceType: source,
-                correctOrientation: true
-              });
+          exitOnPause = false;
+          // Retrieve image file location from specified source
+          navigator.camera.getPicture(onPhotoURISuccess, onFail, {
+            quality: 50,
+            targetWidth: 320,
+            targetHeight: 320,
+            destinationType: destinationType.FILE_URI,
+            sourceType: source,
+            correctOrientation: true
+          });
         }
         // Called if something bad happens.
         // 
         function onFail(message) {
-            alert('Failed because: ' + message);
+          alert('Failed because: ' + message);
         }
 
         function onPhotoURISuccess(imageURI) {
-            console.log("uri:" + imageURI);
-            window.resolveLocalFileSystemURL(imageURI, function (fileEntry) {
-                fileEntry.file(function (fileObj) {
-                    alert("Size = " + fileObj.size);
-                });
+          console.log("uri:" + imageURI);
+          window.resolveLocalFileSystemURL(imageURI, function (fileEntry) {
+            fileEntry.file(function (fileObj) {
+              alert("Size = " + fileObj.size);
             });
-            displayImage(imageURI);
+          });
+          displayImage(imageURI);
         }
 
         function displayImage(imageUri) {
-            var tempImg = new Image();
-            tempImg.src = imageUri;
-            tempImg.onload = function () {
-                // Get image handle
-                //
-                var smallImage = document.getElementById('smallImage');
-                var details = document.getElementById('details');
-                details.innerHTML = 'Width: ' + tempImg.width + '<br/>Height: ' + tempImg.height;
+          var tempImg = new Image();
+          tempImg.src = imageUri;
+          tempImg.onload = function () {
+            // Get image handle
+            //
+            var smallImage = document.getElementById('smallImage');
+            var details = document.getElementById('details');
+            details.innerHTML = 'Width: ' + tempImg.width + '<br/>Height: ' + tempImg.height;
 
-                // Unhide image elements
-                //
-                smallImage.style.display = 'block';
-                if (tempImg.width < tempImg.height) {
-                    console.log('display portrait');
-                    smallImage.style.width = 150;
-                    smallImage.style.width = 200;
-                } else {
-                    console.log('display landscape');
-                    smallImage.style.width = 200;
-                    smallImage.style.width = 150;
-                }
-                // Show the captured photo
-                // The inline CSS rules are used to resize the image
-                //
-                smallImage.src = imageUri;
-                selectedImage = imageUri;
-                console.log("Image displayed: " + imageUri);
-                tempImg = null;
+            // Unhide image elements
+            //
+            smallImage.style.display = 'block';
+            if (tempImg.width < tempImg.height) {
+              console.log('display portrait');
+              smallImage.style.width = 150;
+              smallImage.style.width = 200;
+            } else {
+              console.log('display landscape');
+              smallImage.style.width = 200;
+              smallImage.style.width = 150;
             }
+            // Show the captured photo
+            // The inline CSS rules are used to resize the image
+            //
+            smallImage.src = imageUri;
+            selectedImage = imageUri;
+            console.log("Image displayed: " + imageUri);
+            tempImg = null;
+          }
 
 
         }
 
         function uploadImage() {
-            if (!selectedImage) {
-                alert("Choose a picture first");
-                return;
-            }
-            console.log("uploading: " + selectedImage);
-            var imageURI = selectedImage;
-            var options = new FileUploadOptions();
-            options.fileKey = "file";
-            options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1) + ".jpg";
-            options.mimeType = "image/jpeg";
+          if (!selectedImage) {
+            alert("Choose a picture first");
+            return;
+          }
+          console.log("uploading: " + selectedImage);
+          var imageURI = selectedImage;
+          var options = new FileUploadOptions();
+          options.fileKey = "file";
+          options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1) + ".jpg";
+          options.mimeType = "image/jpeg";
 
-            options.chunkedMode = false;
+          options.chunkedMode = false;
 
-            console.log("filename=" + options.fileName);
-            var ft = new FileTransfer();
-            ft.upload(imageURI, "http://uploads.im/api?upload&thumb_width=100", win, fail, options);
+          console.log("filename=" + options.fileName);
+          var ft = new FileTransfer();
+          ft.upload(imageURI, "http://uploads.im/api?upload&thumb_width=100", win, fail, options);
         }
 
         function win(r) {
-            var str = "Code = " + r.responseCode + "\n" + "Response = " + r.response + "\n" + "Sent = " + r.bytesSent;
-            console.log(str);
-            alert(r.response);
+          var str = "Code = " + r.responseCode + "\n" + "Response = " + r.response + "\n" + "Sent = " + r.bytesSent;
+          console.log(str);
+          alert(r.response);
 //                displayLinks(r);
-            testJson(r.response);
+          testJson(r.response);
         }
 
         function fail(error) {
-            alert("An error has occurred: Code = " + error.code + " Msg: " + error.message);
+          alert("An error has occurred: Code = " + error.code + " Msg: " + error.message);
         }
 
         function displayLinks(r) {
-            var element = document.getElementById('links');
-            var obj = JSON.parse(r);
+          var element = document.getElementById('links');
+          var obj = JSON.parse(r);
 
-            element.innerHTML = 'Image name: ' + obj.data.img_name +
-                    '<br />' + 'Url: ' + obj.data.img_url +
-                    '<br />' + 'Thumbnail: ' + obj.data.thumb_url +
-                    '<br />' + 'Size: ' + obj.data.img_size +
-                    '<br />' + 'Bytes: ' + obj.data.img_bytes + '<br />';
+          element.innerHTML = 'Image name: ' + obj.data.img_name +
+                  '<br />' + 'Url: ' + obj.data.img_url +
+                  '<br />' + 'Thumbnail: ' + obj.data.thumb_url +
+                  '<br />' + 'Size: ' + obj.data.img_size +
+                  '<br />' + 'Bytes: ' + obj.data.img_bytes + '<br />';
         }
 
         function testJson(json) {
-            if (json == null || json == ''){
-                json = '{ "status_code": 200, "status_txt": "OK", "data": { "img_name": "9WBOk.jpg", "img_url": "http://sk.uploads.im/9WBOk.jpg", "img_view": "http://uploads.im/9WBOk.jpg", "img_width": "1080", "img_height": "1478", "img_attr": "width=\"1080\" height=\"1478\"", "img_size": "341.7 KB", "img_bytes": 349930, "thumb_url": "http://sk.uploads.im/t/9WBOk.jpg", "thumb_width": 360, "thumb_height": 493, "source": "base64 image string", "resized": "0", "delete_key": "34051e5bbfe3158a" } }';
-            }
-            var element = document.getElementById('links');
-            element.innerHTML = json + '<br/><br/>';
-            //remove img_attr from string since the extra " cause problems.
-            var start = json.indexOf('img_attr') - 1;
-            var end = json.indexOf('img_size') - 1;
+          if (json == null || json == '') {
+            json = '{ "status_code": 200, "status_txt": "OK", "data": { "img_name": "9WBOk.jpg", "img_url": "http://sk.uploads.im/9WBOk.jpg", "img_view": "http://uploads.im/9WBOk.jpg", "img_width": "1080", "img_height": "1478", "img_attr": "width=\"1080\" height=\"1478\"", "img_size": "341.7 KB", "img_bytes": 349930, "thumb_url": "http://sk.uploads.im/t/9WBOk.jpg", "thumb_width": 360, "thumb_height": 493, "source": "base64 image string", "resized": "0", "delete_key": "34051e5bbfe3158a" } }';
+          }
+          var element = document.getElementById('links');
+          element.innerHTML = json + '<br/><br/>';
+          //remove img_attr from string since the extra " cause problems.
+          var start = json.indexOf('img_attr') - 1;
+          var end = json.indexOf('img_size') - 1;
 
-            var msg = json.substring(0, start) + json.substring(end);
-            element.innerHTML += msg + '<br/><br/>';
-            var obj = JSON.parse(msg);
+          var msg = json.substring(0, start) + json.substring(end);
+          element.innerHTML += msg + '<br/><br/>';
+          var obj = JSON.parse(msg);
 
-            element.innerHTML += '<br/> status_code: ' + obj.status_code;
-            element.innerHTML += '<br/> status_txt: ' + obj.status_txt;
-            element.innerHTML += '<br/> img_name: ' + obj.data.img_name;
-            element.innerHTML += '<br/> img_bytes: ' + obj.data.img_bytes;
-            element.innerHTML += '<br/> img_url: <a href="' + obj.data.img_url + '">' + obj.data.img_url + '</a>';
-            element.innerHTML += '<br/> thumb_url: <a href="' + obj.data.thumb_url + '">' + obj.data.thumb_url + '</a>';
-            element.innerHTML += '<br/><img src="' + obj.data.thumb_url + '"></img>';
+          element.innerHTML += '<br/> status_code: ' + obj.status_code;
+          element.innerHTML += '<br/> status_txt: ' + obj.status_txt;
+          element.innerHTML += '<br/> img_name: ' + obj.data.img_name;
+          element.innerHTML += '<br/> img_bytes: ' + obj.data.img_bytes;
+          element.innerHTML += '<br/> img_url: <a href="' + obj.data.img_url + '">' + obj.data.img_url + '</a>';
+          element.innerHTML += '<br/> thumb_url: <a href="' + obj.data.thumb_url + '">' + obj.data.thumb_url + '</a>';
+          element.innerHTML += '<br/><img src="' + obj.data.thumb_url + '"></img>';
         }
 
         function confirmPressed()
         {
-            myLibrary.displayConfirmationDialog('Game Over', 'You are the winner', 'Restart,Cancel,Exit', onConfirm);
+          myLibrary.displayConfirmationDialog('Game Over', 'You are the winner', 'Restart,Cancel,Exit', onConfirm);
         }
         // process the confirmation dialog result
         function onConfirm(button) {
-            alert('You selected button ' + button);
+          alert('You selected button ' + button);
         }
 
     </script>
