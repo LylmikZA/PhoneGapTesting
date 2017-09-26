@@ -49,7 +49,15 @@
 
       function gotoPage(page)
       {
-        window.location = page + ".html";
+        window.testVar = 5;
+        sessionStorage.testVar = 5;//gets read by calendar page
+        if (page === 'calendar') {
+          console.log('going to calendar, passing 2017 and 2016 as variables');
+//          window.location = page + ".html#2017?2016";
+          window.location.replace(page + ".html#2017?2016");
+        } else {
+          window.location = page + ".html";
+        }
       }
 
       function BackKeyDown()

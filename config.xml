@@ -11,6 +11,8 @@
   <access origin="*"  />
   <access origin="tel:*" launch-external="yes" /> 
   <access origin="geo:*" launch-external="yes" />
+  
+  <icon src="icon.png" />
       
   <preference name="Orientation" value="portrait" />
     

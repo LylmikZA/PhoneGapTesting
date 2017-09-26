@@ -62,6 +62,11 @@
         console.log(TAG + "device ready")
         document.addEventListener("backbutton", BackKeyDown, true);
 
+        console.log('passed window variable = ' + window.testVar);
+        console.log('passed sessionStorage variable = ' + sessionStorage.testVar);
+        var str = window.location.hash.substr(1);
+        var res = str.split("?");
+        console.log('passing hashtags: ' + res[0] + "," + res[1]);
 
 // clean up the dates a bit
 //        startDate.setMinutes(0);
