@@ -25,7 +25,7 @@
     <variable name="SENDER_ID" value="79759081709" />
   </plugin>
   <plugin name="cordova-plugin-calendar" />
-  <plugin name="cordova-plugin-barcodescanner" />
+  <plugin name="cordova-plugin-barcodescanner" spec="0.7.1"/>
 
   <platform name="android">
     <preference name="android-minSdkVersion" value="15"/>
