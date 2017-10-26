@@ -11,8 +11,6 @@
   <access origin="*"  />
   <access origin="tel:*" launch-external="yes" /> 
   <access origin="geo:*" launch-external="yes" />
-  
-  <icon src="icon.png" />
       
   <preference name="Orientation" value="portrait" />
     
@@ -27,9 +25,16 @@
     <variable name="SENDER_ID" value="79759081709" />
   </plugin>
   <plugin name="cordova-plugin-calendar" />
+  <plugin name="cordova-plugin-barcodescanner" />
 
   <platform name="android">
     <preference name="android-minSdkVersion" value="15"/>
+    <icon src="www/img/knlogo.png" density="ldpi" />
+    <icon src="www/img/knlogo.png" density="mdpi" />
+    <icon src="www/img/knlogo.png" density="hdpi" />
+    <icon src="www/img/knlogo.png" density="xhdpi" />
+    <icon src="www/img/knlogo.png" density="xxhdpi" />
+    <icon src="www/img/knlogo.png" density="xxxhdpi" />
   </platform>
   
   <feature name="Calendar">
