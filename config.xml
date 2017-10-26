@@ -31,7 +31,7 @@
     <variable name="SENDER_ID" value="79759081709" />
   </plugin>
   <plugin name="cordova-plugin-calendar" />
-  <plugin name="cordova-plugin-barcodescanner" spec="0.7.1"/>
+  <plugin name="cordova-plugin-barcodescanner" spec="0.7.0" source="npm" />
 
   <platform name="android">
     <preference name="android-minSdkVersion" value="15"/>
@@ -41,6 +41,12 @@
     <icon src="www/img/knlogo.png" density="xhdpi" />
     <icon src="www/img/knlogo.png" density="xxhdpi" />
     <icon src="www/img/knlogo.png" density="xxxhdpi" />
+    
+    <config-file mode="merge" parent="/*" target="AndroidManifest.xml">
+      <uses-permission android:name="android.permission.CAMERA" />
+      <uses-feature android:name="android.hardware.camera" />
+      <uses-feature android:name="android.hardware.camera.autofocus" />
+    </config-file>
   </platform>
   
   <feature name="Calendar">
@@ -49,10 +55,6 @@
 
   <allow-navigation href="*" />
   
-  <config-file mode="merge" parent="/*" target="AndroidManifest.xml">
-    <uses-permission android:name="android.permission.CAMERA" xmlns:android="http://schemas.android.com/apk/res/android" />
-    <uses-feature android:name="android.hardware.camera" xmlns:android="http://schemas.android.com/apk/res/android" />
-    <uses-feature android:name="android.hardware.camera.autofocus" xmlns:android="http://schemas.android.com/apk/res/android" />
-  </config-file>
+ 
   
 </widget>
